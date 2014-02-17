@@ -2,3 +2,4 @@ Makefile.am
 makeit
 buildit
 configure.ac
+*.swp
