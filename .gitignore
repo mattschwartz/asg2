@@ -3,6 +3,7 @@ makeit
 buildit
 configure.ac
 *.swp
+*.o
 aclocal.m4
 config.h
 config.sub
@@ -23,9 +24,7 @@ depcomp
 ltmain.sh
 .deps
 assignment2
-assignment2-MinimalOgre.o
 Ogre.log
 plugins.cfg
 resources.cfg
-media
 ogre.cfg
