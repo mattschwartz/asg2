@@ -22,3 +22,10 @@ config.status
 depcomp
 ltmain.sh
 .deps
+assignment2
+assignment2-MinimalOgre.o
+Ogre.log
+plugins.cfg
+resources.cfg
+media
+ogre.cfg

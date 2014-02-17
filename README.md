@@ -1,4 +1,5 @@
-asg2
-====
+I added the media folder, plugins.cfg, and resources.cfg to .gitignore since they'll be specific to our development environments.
 
-The second assignment repo for CS 354 - Game Technology
+List here any resources you use, and we'll individually add them in the appropriate places on our separate machines:
+
+media/packs/SdkTrays.zip
