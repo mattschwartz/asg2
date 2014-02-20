@@ -3,7 +3,7 @@
 Room::Room() {
 }
 
-Room::Room(int width, int height, int depth) {
+Room::Room(float width, float height, float depth) {
 	dimensions.width = width;
 	dimensions.height = height;
 	dimensions.depth = depth;
@@ -80,19 +80,16 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall2Node->attachObject(wall2Entity);
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
-
-	// Set skybox
-	sceneMgr.setSkyBox(true, "Examples/SpaceSkyBox", 5000, false);
 }
 
-int Room::getWidth() {
+float Room::getWidth() {
 	return dimensions.width;
 }
 
-int Room::getHeight() {
+float Room::getHeight() {
 	return dimensions.height;
 }
 
-int Room::getDepth() {
+float Room::getDepth() {
 	return dimensions.depth;
 }

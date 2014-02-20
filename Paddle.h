@@ -2,6 +2,8 @@
 #include <OgrePrerequisites.h>
 #include <OgreSceneManager.h>
 
+#ifndef _PADDLE_H_
+#define _PADDLE_H_
 class Paddle{
   protected:
     Ogre::SceneManager* scnMgr;
@@ -18,3 +20,4 @@ class Paddle{
     float getHeight();
     float getLength();
 };
+#endif
