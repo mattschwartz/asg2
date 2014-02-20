@@ -35,6 +35,8 @@ This source file is part of the
 #include <SdkCameraMan.h>
 
 #include "Paddle.h"
+#include "PaddleController.h"
+#include "Room.h"
 
 class MinimalOgre : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
 {

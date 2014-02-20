@@ -133,7 +133,11 @@ bool MinimalOgre::go(void)
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 //-------------------------------------------------------------------------------------
     // Create the scene
+    Dimension roomDimensions{50.0f, 50.0f, 50.0f};
+    Room* room = new Room(roomDimensions);
+    room->createScene(*mSceneMgr);
     Paddle* paddle = new Paddle(mSceneMgr);
+    PaddleController* paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height);
     mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
 
     // Set ambient light

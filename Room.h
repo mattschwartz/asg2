@@ -3,9 +3,9 @@
 #include <Ogre.h>
 
 struct Dimension {
-	int width;
-	int height;
-	int depth;
+	float width;
+	float height;
+	float depth;
 };
 
 class Room {
@@ -14,12 +14,12 @@ private:
 
 public:
 	Room();
-	Room(int width, int height, int depth);
+	Room(float width, float height, float depth);
 	Room(struct Dimension d);
 	void createScene(Ogre::SceneManager &sceneMgr);
-	int getWidth();
-	int getHeight();
-	int getDepth();
+	float getWidth();
+	float getHeight();
+        float getDepth();
 };
 
 #endif
