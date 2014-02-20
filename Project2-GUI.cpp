@@ -87,23 +87,7 @@ void Project2-GUI::createScene(void)
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
     CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
     
-    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/Sheet");
-    
-    CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/QuitButton");
-    quit->setText("Quit Game");
-    quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    
-    CEGUI::Window *fp = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/MainMenu/FreePlayButton");
-    fp->setText("Free Play");
-    fp->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    fp->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 50), CEGUI::UDim(0.5, 0)));
-    
-    sheet->addChildWindow(quit);
-    sheet->addChildWindow(fp);
-    CEGUI::System::getSingleton().setGUISheet(sheet);
-    
-    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Project2-GUI::quit, this));
+    createMainMenu();
 }
 
 //-------------------------------------------------------------------------------------
@@ -160,6 +144,11 @@ bool Project2-GUI::keyPressed(const OIS::KeyEvent &arg)
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectKeyDown(arg.key);
     sys.injectChar(arg.text);
+    
+    if (arg.key == OIS::KC_ESCAPE) {
+        createMainMenu();
+    }
+    
     return true;
 }
 
@@ -196,9 +185,59 @@ bool Project2-GUI::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID 
 }
 
 //-------------------------------------------------------------------------------------
+void Project2-GUI::createMainMenu(void)
+{
+    CEGUI::MouseCursor::getSingleton().show();
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    wmgr.destroyAllWindows();
+    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/Sheet");
+    
+    CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/QuitButton");
+    quit->setText("Quit Game");
+    quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+    
+    CEGUI::Window *fp = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/MainMenu/FreePlayButton");
+    fp->setText("Free Play");
+    fp->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+    fp->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.5, 0)));
+    
+    sheet->addChildWindow(quit);
+    sheet->addChildWindow(fp);
+    CEGUI::System::getSingleton().setGUISheet(sheet);
+    
+    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Project2-GUI::quit, this));
+    fp->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Project2-GUI::startGame, this));
+}
+
+//-------------------------------------------------------------------------------------
 bool Project2-GUI::quit(const CEGUI::EventArgs &e)
 {
     mShutDown = true;
+    return true;
+}
+
+//-------------------------------------------------------------------------------------
+bool Project2-GUI::startGame(const CEGUI::EventArgs &e)
+{
+    CEGUI::MouseCursor::getSingleton().hide();
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    wmgr.destroyAllWindows();
+    
+    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
+    
+    CEGUI::Window *score = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/FreePlay/Score");
+    int scoreNum = 0;
+    std::ostringstream s;
+    s << scoreNum;
+    score->setText(s.str());
+    score->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+    score->setPosition(CEGUI::UVector2(CEGUI::UDim(0.85, 0), CEGUI::UDim(0.0, 0)));
+    
+    
+    sheet->addChildWindow(score);
+    
+    CEGUI::System::getSingleton().setGUISheet(sheet);
+    
     return true;
 }
 

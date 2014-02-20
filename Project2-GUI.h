@@ -18,6 +18,8 @@ This source file is part of the
 #define __Project2-GUI_h_
 
 #include "BaseApplication.h"
+#include <sstream>
+#include <string>
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
@@ -46,7 +48,9 @@ protected:
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     
+    void createMainMenu();
     bool quit(const CEGUI::EventArgs &e);
+    bool startGame(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef __Project2-GUI_h_
