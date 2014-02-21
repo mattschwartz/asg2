@@ -1,5 +1,6 @@
 #!/bin/bash
 rm -r ./turnin-dir
+mkdir ./turnin-dir
 cp ./buildit ./turnin-dir
 cp ./configure.ac ./turnin-dir
 cp ./Makefile.am ./turnin-dir
@@ -17,6 +18,7 @@ cp -r ./media ./turnin-dir
 #cp ./TutorialApplication.cpp ./turnin-dir
 #cp ./TutorialApplication.h ./turnin-dir
 #cp ./OgreApp ./turnin-dir
+cp ./Common.h ./turnin-dir
 cp ./MinimalOgre.h ./turnin-dir
 cp ./MinimalOgre.cpp ./turnin-dir
 cp ./PaddleController.cpp ./turnin-dir
