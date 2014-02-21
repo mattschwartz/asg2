@@ -29,6 +29,3 @@ cp ./assignment2 ./turnin-dir
 cp ./Room.cpp ./turnin-dir
 cp ./Room.h ./turnin-dir
 tar -c -z -f files.tgz turnin-dir
-
-
-

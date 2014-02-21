@@ -36,12 +36,10 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 }
 
 //-------------------------------------------------------------------------------------
-TutorialApplication::TutorialApplication(void)
-{
+TutorialApplication::TutorialApplication(void){
 }
 //-------------------------------------------------------------------------------------
-TutorialApplication::~TutorialApplication(void)
-{
+TutorialApplication::~TutorialApplication(void){
 }
 
 //-------------------------------------------------------------------------------------
@@ -88,6 +86,14 @@ void TutorialApplication::createScene(void)
     CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
     
     createMainMenu();
+
+    Dimension roomDimensions{50.0f, 50.0f, 50.0f};
+    Room* room = new Room(roomDimensions);
+    room->createScene(*mSceneMgr);
+    Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
+    mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
+    paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height, roomDimensions.depth);
+    paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 }
 
 //-------------------------------------------------------------------------------------
@@ -167,6 +173,9 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
     // Scroll wheel.
     if (arg.state.Z.rel)
         sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
+    float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
+    float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
+    paddleController->PositionPaddle(xPercent,yPercent,0.0f);
     return true;
 }
 
