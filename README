@@ -1,0 +1,19 @@
+Michael Passaloukos
+EID: mp27946
+CS: mpass
+
+Matt Schwartz
+EID: mas7729
+
+Richard
+
+
+To build:
+./buildit
+
+
+All in one line:
+tar xvf files.tgz;cd turnin-dir;./buildit;./assignment2
+
+
+The executable is named assignment2
