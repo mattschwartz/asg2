@@ -136,9 +136,10 @@ bool MinimalOgre::go(void)
     Dimension roomDimensions{50.0f, 50.0f, 50.0f};
     Room* room = new Room(roomDimensions);
     room->createScene(*mSceneMgr);
-    Paddle* paddle = new Paddle(mSceneMgr);
-    PaddleController* paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height);
+    Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
     mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
+    paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height, roomDimensions.depth);
+    paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
@@ -337,7 +338,10 @@ bool MinimalOgre::keyReleased( const OIS::KeyEvent &arg )
 bool MinimalOgre::mouseMoved( const OIS::MouseEvent &arg )
 {
     if (mTrayMgr->injectMouseMove(arg)) return true;
-    mCameraMan->injectMouseMove(arg);
+    //mCameraMan->injectMouseMove(arg);
+    float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
+    float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
+    paddleController->PositionPaddle(xPercent,yPercent,0.0f);
     return true;
 }
 

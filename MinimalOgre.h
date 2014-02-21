@@ -45,6 +45,7 @@ public:
     virtual ~MinimalOgre(void);
     bool go(void);
 protected:
+    PaddleController* paddleController;
     Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
     Ogre::SceneManager* mSceneMgr;

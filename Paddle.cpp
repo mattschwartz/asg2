@@ -5,7 +5,11 @@
 
 using namespace Ogre;
 
-Paddle::Paddle(Ogre::SceneManager* scnMgr):scnMgr(scnMgr),width(10.0f),height(10.0f),length(2.0f){
+void Paddle::Position(Real x, Real y, Real z){
+  node->setPosition(x, y, z);
+}
+
+Paddle::Paddle(Ogre::SceneManager* scnMgr, float width, float height, float length):scnMgr(scnMgr),width(width),height(height),length(length){
   node = scnMgr->createSceneNode("Field");
 
   Ogre::SceneNode* planeNode;
