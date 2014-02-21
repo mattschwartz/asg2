@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-Filename:    Project2-GUI.cpp
+Filename:    TutorialApplication.cpp
 -----------------------------------------------------------------------------
 
 This source file is part of the
@@ -14,7 +14,7 @@ This source file is part of the
       http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
 */
-#include "Project2-GUI.h"
+#include "TutorialApplication.h"
 
 //-------------------------------------------------------------------------------------
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
@@ -36,11 +36,11 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 }
 
 //-------------------------------------------------------------------------------------
-Project2-GUI::Project2-GUI(void)
+TutorialApplication::TutorialApplication(void)
 {
 }
 //-------------------------------------------------------------------------------------
-Project2-GUI::~Project2-GUI(void)
+TutorialApplication::~TutorialApplication(void)
 {
 }
 
@@ -74,7 +74,7 @@ void Project2-GUI::createViewports(void)
 }*/
 
 //-------------------------------------------------------------------------------------
-void Project2-GUI::createScene(void)
+void TutorialApplication::createScene(void)
 {
     mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
     
@@ -91,7 +91,7 @@ void Project2-GUI::createScene(void)
 }
 
 //-------------------------------------------------------------------------------------
-void Project2-GUI::createFrameListener(void)
+void TutorialApplication::createFrameListener(void)
 {
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
     OIS::ParamList pl;
@@ -120,7 +120,7 @@ void Project2-GUI::createFrameListener(void)
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::frameRenderingQueued(const Ogre::FrameEvent& evt) 
+bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt) 
 {
     if(mWindow->isClosed())
         return false;
@@ -139,7 +139,7 @@ bool Project2-GUI::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::keyPressed(const OIS::KeyEvent &arg)
+bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
 {
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectKeyDown(arg.key);
@@ -153,14 +153,14 @@ bool Project2-GUI::keyPressed(const OIS::KeyEvent &arg)
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::keyReleased(const OIS::KeyEvent &arg)
+bool TutorialApplication::keyReleased(const OIS::KeyEvent &arg)
 {
     CEGUI::System::getSingleton().injectKeyUp(arg.key);
     return true;
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::mouseMoved(const OIS::MouseEvent &arg)
+bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
 {
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
@@ -171,21 +171,21 @@ bool Project2-GUI::mouseMoved(const OIS::MouseEvent &arg)
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+bool TutorialApplication::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
     CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
     return true;
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+bool TutorialApplication::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
     CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
     return true;
 }
 
 //-------------------------------------------------------------------------------------
-void Project2-GUI::createMainMenu(void)
+void TutorialApplication::createMainMenu(void)
 {
     CEGUI::MouseCursor::getSingleton().show();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
@@ -205,19 +205,19 @@ void Project2-GUI::createMainMenu(void)
     sheet->addChildWindow(fp);
     CEGUI::System::getSingleton().setGUISheet(sheet);
     
-    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Project2-GUI::quit, this));
-    fp->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Project2-GUI::startGame, this));
+    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TutorialApplication::quit, this));
+    fp->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TutorialApplication::startGame, this));
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::quit(const CEGUI::EventArgs &e)
+bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 {
     mShutDown = true;
     return true;
 }
 
 //-------------------------------------------------------------------------------------
-bool Project2-GUI::startGame(const CEGUI::EventArgs &e)
+bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
 {
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
@@ -258,7 +258,7 @@ extern "C" {
 #endif
     {
         // Create application object
-        Project2-GUI app;
+        TutorialApplication app;
 
         try {
             app.go();

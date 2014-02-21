@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------
-Filename:    Project2-GUI.h
+Filename:    TutorialApplication.h
 -----------------------------------------------------------------------------
 
 This source file is part of the
@@ -14,8 +14,8 @@ This source file is part of the
       http://www.ogre3d.org/tikiwiki/
 -----------------------------------------------------------------------------
 */
-#ifndef __Project2-GUI_h_
-#define __Project2-GUI_h_
+#ifndef __TutorialApplication_h_
+#define __TutorialApplication_h_
 
 #include "BaseApplication.h"
 #include <sstream>
@@ -24,11 +24,10 @@ This source file is part of the
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
-class Project2-GUI : public BaseApplication
-{
+class TutorialApplication:public BaseApplication{
 public:
-    Project2-GUI(void);
-    virtual ~Project2-GUI(void);
+    TutorialApplication(void);
+    virtual ~TutorialApplication(void);
 
 protected:
     CEGUI::OgreRenderer* mRenderer;
@@ -53,4 +52,4 @@ protected:
     bool startGame(const CEGUI::EventArgs &e);
 };
 
-#endif // #ifndef __Project2-GUI_h_
+#endif // #ifndef _Project2_GUI_h_
