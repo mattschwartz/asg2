@@ -1,41 +1,34 @@
 #include "Room.h"
 
 Room::Room() {
+	initPlanes();
 }
 
-Room::Room(float width, float height, float depth) {
+Room::Room(float width, float depth, float height) {
+	initPlanes();
 	dimensions.width = width;
-	dimensions.height = height;
 	dimensions.depth = depth;
+	dimensions.height = height;
 }
 
 Room::Room(struct Dimension d) {
+	initPlanes();
 	this->dimensions = d;
 }
 
+void Room::initPlanes() {
+	floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
+	ceiling = new Ogre::Plane(-Ogre::Vector3::UNIT_Y, 0);
+	wall1 = new Ogre::Plane(Ogre::Vector3::UNIT_X, 0);
+	wall2 = new Ogre::Plane(-Ogre::Vector3::UNIT_X, 0);
+	wall3 = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
+	wall4 = new Ogre::Plane(-Ogre::Vector3::UNIT_Z, 0);
+}
+
 void Room::createScene(Ogre::SceneManager &sceneMgr) {
-	Ogre::Plane floor(Ogre::Vector3::UNIT_Y, 0);
-	Ogre::Plane ceiling(-Ogre::Vector3::UNIT_Y, 0);
-	Ogre::Plane wall1(Ogre::Vector3::UNIT_X, 0);
-	Ogre::Plane wall2(-Ogre::Vector3::UNIT_X, 0);
-	Ogre::Plane wall3(Ogre::Vector3::UNIT_Z, 0);
-	Ogre::Plane wall4(-Ogre::Vector3::UNIT_Z, 0);
-
 	// manage meshes for planes
-	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    floor, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
-	Ogre::MeshManager::getSingleton().createPlane("ceiling", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    ceiling, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
+    createMeshes(sceneMgr);
 
-	Ogre::MeshManager::getSingleton().createPlane("wall1", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    wall1, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
-	Ogre::MeshManager::getSingleton().createPlane("wall2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    wall2, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
-	Ogre::MeshManager::getSingleton().createPlane("wall3", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    wall3, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Y);
-	Ogre::MeshManager::getSingleton().createPlane("wall4", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-    wall4, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Y);
-	
 	// Create plane entities
 	Ogre::Entity *floorEntity = sceneMgr.createEntity("FloorEntity", "floor");
 	Ogre::Entity *ceilingEntity = sceneMgr.createEntity("CeilingEntity", "ceiling");
@@ -68,10 +61,11 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	
 	floorNode->setPosition(0, -dimensions.height / 2, 0);
 	ceilingNode->setPosition(0, dimensions.height / 2, 0);
+
 	wall1Node->setPosition(-dimensions.width / 2, 0, 0);
 	wall2Node->setPosition(dimensions.width / 2, 0, 0);
-	wall3Node->setPosition(0, 0, -dimensions.width / 2);
-	wall4Node->setPosition(0, 0, dimensions.width / 2);
+	wall3Node->setPosition(0, 0, -dimensions.depth / 2);
+	wall4Node->setPosition(0, 0, dimensions.depth / 2);
 
 	// Attach them to nodes
 	floorNode->attachObject(floorEntity);
@@ -80,7 +74,20 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall2Node->attachObject(wall2Entity);
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
-}
+} // createScene
+
+/**
+ * Create the meshes for the 6 planes of the room
+ */
+void Room::createMeshes(Ogre::SceneManager &sceneMgr) {
+	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *floor, dimensions.width, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("ceiling", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *ceiling, dimensions.width, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
+    
+	Ogre::MeshManager::getSingleton().createPlane("wall1", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *wall1, dimensions.height, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("wall2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *wall2, dimensions.height, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("wall3", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *wall3, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Y);
+	Ogre::MeshManager::getSingleton().createPlane("wall4", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *wall4, dimensions.width, dimensions.height, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Y);
+} // createMeshes
 
 float Room::getWidth() {
 	return dimensions.width;

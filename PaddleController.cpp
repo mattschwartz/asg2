@@ -8,6 +8,5 @@ PaddleController::PaddleController(Paddle* paddle, float rangeWidth, float range
   _minY = -rangeHeight/2 + paddleHeight/2;
   _maxY = rangeHeight/2 - paddleHeight/2;
 }
-PaddleController::~PaddleController()=default;
 void PaddleController::PositionPaddle(float percentX, float percentY){
 }
