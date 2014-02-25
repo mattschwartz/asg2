@@ -17,6 +17,10 @@ Room::Room(struct Dimension d) {
 	this->dimensions = d;
 } // constructor
 
+/** 
+ * Performs the tasks that all constructors have in common
+ * in one, convenient function.
+ */
 void Room::init() {
 	ball = new Ball(0, this, 1, 1, 1);
 
@@ -29,6 +33,10 @@ void Room::init() {
 	wall4 = new Ogre::Plane(-Ogre::Vector3::UNIT_Z, 0);
 } // init
 
+/**
+ * Creates the scene, which is composed of 6 planes that enclose upon a
+ * single point (i.e., it creates a room).
+ */
 void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
 	// Let there be lights
 	createLights(sceneMgr, mCamera);
@@ -85,12 +93,15 @@ void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
 	ball->createObject(sceneMgr);
 } // createScene
 
+/**
+ * Sets up the lights for the room.
+ */
 void Room::createLights(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
 	mCamera.setPosition(getWidth() + 15, getHeight() + 15, getDepth() + 15);
 	mCamera.lookAt(0, 0, 0);
-	sceneMgr.setAmbientLight(Ogre::ColourValue(50, 50, 0));
+	sceneMgr.setAmbientLight(Ogre::ColourValue(200, 220, 0));
 	Ogre::Light *light = sceneMgr.createLight("MainLight");
-	light->setPosition(0, 0, 0);
+	light->setPosition(0, getHeight() / 2, 0);
 	Ogre::Light *light2 = sceneMgr.createLight("MainLight2");
 	light2->setType(Ogre::Light::LT_SPOTLIGHT);
 	light2->setPosition(Ogre::Vector3(0, 150, 250));
@@ -122,3 +133,11 @@ float Room::getHeight() {
 float Room::getDepth() {
 	return dimensions.depth;
 }
+
+/**
+ * This function is invoked whenever the game needs to update all
+ * of its objects.
+ */
+void Room::update(const Ogre::FrameEvent &evt) {
+	ball->update(evt);
+} // update

@@ -41,7 +41,7 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
 
 	direction = Ogre::Vector3(rand() % 50, rand() % 50, rand() % 50);
 	direction.normalise();
-	speed = 100.0f;
+	speed = 1;
 } // createObject
 
 /**
@@ -88,6 +88,11 @@ void Ball::move(const Ogre::FrameEvent &evt) {
 	if (pos.x > room->getWidth()/2.0f - radius && direction.x > 0.0f) 
 		direction.x = -direction.x;
 	ballNode->translate(speed * evt.timeSinceLastFrame * direction);
+	pos.x = ballNode->getPosition().x;
+	pos.y = ballNode->getPosition().y;
+	pos.z = ballNode->getPosition().z;
+	speed *= 1.05;
+	speed = speed > 10 ? 10 : speed;
 } // move
 
 /**
@@ -98,3 +103,15 @@ void Ball::move(const Ogre::FrameEvent &evt) {
  */
 void Ball::splat() {
 } // splat
+
+
+/**
+ * This function is invoked whenever the game must update its
+ * components.  This particular level of update() is called from
+ * its parent node, the Cannon.
+ */
+void Ball::update(const Ogre::FrameEvent &evt) {
+	move(evt);
+	// did the ball hit a target? then, 
+	// splat();
+} // update

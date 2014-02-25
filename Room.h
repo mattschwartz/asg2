@@ -30,6 +30,7 @@ public:
 	float getWidth();
 	float getHeight();
 	float getDepth();
+	void update(const Ogre::FrameEvent &evt);
 };
 
 #endif

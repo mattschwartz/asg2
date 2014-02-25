@@ -27,6 +27,7 @@ public:
 	void fire();
 	void move(const Ogre::FrameEvent &evt);
 	void splat();
+	void update(const Ogre::FrameEvent &evt);
 };
 
 #endif
