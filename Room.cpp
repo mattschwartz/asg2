@@ -1,31 +1,38 @@
 #include "Room.h"
+#include "Ball.h"
 
 Room::Room() {
-	initPlanes();
-}
+	init();
+} // constructor
 
 Room::Room(float width, float depth, float height) {
-	initPlanes();
+	init();
 	dimensions.width = width;
 	dimensions.depth = depth;
 	dimensions.height = height;
-}
+} // constructor
 
 Room::Room(struct Dimension d) {
-	initPlanes();
+	init();
 	this->dimensions = d;
-}
+} // constructor
 
-void Room::initPlanes() {
+void Room::init() {
+	ball = new Ball(0, this, 1, 1, 1);
+
+	// Initialize planes that make up the room
 	floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
 	ceiling = new Ogre::Plane(-Ogre::Vector3::UNIT_Y, 0);
 	wall1 = new Ogre::Plane(Ogre::Vector3::UNIT_X, 0);
 	wall2 = new Ogre::Plane(-Ogre::Vector3::UNIT_X, 0);
 	wall3 = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
 	wall4 = new Ogre::Plane(-Ogre::Vector3::UNIT_Z, 0);
-}
+} // init
 
-void Room::createScene(Ogre::SceneManager &sceneMgr) {
+void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
+	// Let there be lights
+	createLights(sceneMgr, mCamera);
+
 	// manage meshes for planes
     createMeshes(sceneMgr);
 
@@ -44,7 +51,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	Ogre::SceneNode *wall4Node = sceneMgr.getRootSceneNode()->createChildSceneNode("Wall4Node");
 
 	// Meshes
-	floorEntity->setMaterialName("Examples/Rockwall");
+	floorEntity->setMaterialName("E:/users/matt/desktop/appdirectory/media/materials/textures/dirtFloorTexture.jpeg");
 	ceilingEntity->setMaterialName("Examples/Rockwall");
 	wall1Entity->setMaterialName("Examples/Rockwall");
 	wall2Entity->setMaterialName("Examples/Rockwall");
@@ -74,7 +81,22 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall2Node->attachObject(wall2Entity);
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
+
+	ball->createObject(sceneMgr);
 } // createScene
+
+void Room::createLights(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
+	mCamera.setPosition(getWidth() + 15, getHeight() + 15, getDepth() + 15);
+	mCamera.lookAt(0, 0, 0);
+	sceneMgr.setAmbientLight(Ogre::ColourValue(50, 50, 0));
+	Ogre::Light *light = sceneMgr.createLight("MainLight");
+	light->setPosition(0, 0, 0);
+	Ogre::Light *light2 = sceneMgr.createLight("MainLight2");
+	light2->setType(Ogre::Light::LT_SPOTLIGHT);
+	light2->setPosition(Ogre::Vector3(0, 150, 250));
+	light2->setSpecularColour(1.0, 0, 0);
+	sceneMgr.setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
+}
 
 /**
  * Create the meshes for the 6 planes of the room

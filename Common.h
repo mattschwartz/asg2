@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+
 struct Dimension {
 	float width;
 	float height;
