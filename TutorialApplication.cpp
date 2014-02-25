@@ -37,6 +37,7 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
+    soundOn = true;
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -153,6 +154,10 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     
     if (arg.key == OIS::KC_ESCAPE || arg.key == OIS::KC_Q) {
         createMainMenu();
+    }
+    
+    else if (arg.key == OIS::KC_M) {
+        soundOn = !soundOn;
     }
     
     return true;
