@@ -151,7 +151,7 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     sys.injectKeyDown(arg.key);
     sys.injectChar(arg.text);
     
-    if (arg.key == OIS::KC_ESCAPE) {
+    if (arg.key == OIS::KC_ESCAPE || arg.key == OIS::KC_Q) {
         createMainMenu();
     }
     
@@ -173,6 +173,7 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
     // Scroll wheel.
     if (arg.state.Z.rel)
         sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
+        
     float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
     float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
     paddleController->PositionPaddle(xPercent,yPercent,0.0f);
@@ -241,7 +242,6 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     score->setText(s.str());
     score->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
     score->setPosition(CEGUI::UVector2(CEGUI::UDim(0.85, 0), CEGUI::UDim(0.0, 0)));
-    
     
     sheet->addChildWindow(score);
     
