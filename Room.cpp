@@ -105,7 +105,7 @@ void Room::createLights(Ogre::SceneManager &sceneMgr) {
 	//light2->setPosition(Ogre::Vector3(251, 242, 183));
 	//light2->setSpecularColour(1.0, 1.0, 1.0);
 	sceneMgr.setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
-}
+} // createLights
 
 /**
  * Create the meshes for the 6 planes of the room
@@ -122,15 +122,15 @@ void Room::createMeshes(Ogre::SceneManager &sceneMgr) {
 
 float Room::getWidth() {
 	return dimensions.width;
-}
+} // getWidth
 
 float Room::getHeight() {
 	return dimensions.height;
-}
+} // getHeight
 
 float Room::getDepth() {
 	return dimensions.depth;
-}
+} // getDepth
 
 /**
  * This function is invoked whenever the game needs to update all

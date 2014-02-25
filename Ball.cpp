@@ -37,7 +37,7 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
 	ballEntity->setCastShadows(true);
 	ballNode->attachObject(ballEntity);
 
-	srand(time(NULL) + id);
+	srand(time(NULL));
 
 	direction = Ogre::Vector3(rand() % 50, rand() % 50, rand() % 50);
 	direction.normalise();
