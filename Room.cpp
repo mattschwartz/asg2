@@ -22,7 +22,7 @@ Room::Room(struct Dimension d) {
  * in one, convenient function.
  */
 void Room::init() {
-	ball = new Ball(0, this, 1, 1, 1);
+	ball = new Ball(0, this, 0, 0, 0);
 
 	// Initialize planes that make up the room
 	floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
@@ -37,9 +37,9 @@ void Room::init() {
  * Creates the scene, which is composed of 6 planes that enclose upon a
  * single point (i.e., it creates a room).
  */
-void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
+void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	// Let there be lights
-	createLights(sceneMgr, mCamera);
+	createLights(sceneMgr);
 
 	// manage meshes for planes
     createMeshes(sceneMgr);
@@ -96,16 +96,14 @@ void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
 /**
  * Sets up the lights for the room.
  */
-void Room::createLights(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera) {
-	mCamera.setPosition(getWidth() + 15, getHeight() + 15, getDepth() + 15);
-	mCamera.lookAt(0, 0, 0);
-	sceneMgr.setAmbientLight(Ogre::ColourValue(200, 220, 0));
+void Room::createLights(Ogre::SceneManager &sceneMgr) {
+	sceneMgr.setAmbientLight(Ogre::ColourValue(251, 242, 183));
 	Ogre::Light *light = sceneMgr.createLight("MainLight");
-	light->setPosition(0, getHeight() / 2, 0);
-	Ogre::Light *light2 = sceneMgr.createLight("MainLight2");
-	light2->setType(Ogre::Light::LT_SPOTLIGHT);
-	light2->setPosition(Ogre::Vector3(0, 150, 250));
-	light2->setSpecularColour(1.0, 0, 0);
+	light->setPosition(0, getHeight() / 2 - 5, 0);
+	//Ogre::Light *light2 = sceneMgr.createLight("MainLight2");
+	//light2->setType(Ogre::Light::LT_SPOTLIGHT);
+	//light2->setPosition(Ogre::Vector3(251, 242, 183));
+	//light2->setSpecularColour(1.0, 1.0, 1.0);
 	sceneMgr.setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
 }
 

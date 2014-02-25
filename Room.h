@@ -17,7 +17,7 @@ private:
     Ogre::Plane *wall3;
     Ogre::Plane *wall4;
 	struct Dimension dimensions;
-	void createLights(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera);
+	void createLights(Ogre::SceneManager &sceneMgr);
     void createMeshes(Ogre::SceneManager &sceneMgr);
 	void init();
 
@@ -25,7 +25,7 @@ public:
 	Room();
 	Room(float width, float depth, float height);
 	Room(struct Dimension d);
-	void createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera &mCamera);
+	void createScene(Ogre::SceneManager &sceneMgr);
 	bool intersects(struct Position point);
 	float getWidth();
 	float getHeight();
