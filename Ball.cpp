@@ -4,6 +4,7 @@
 Ball::Ball(int id, Room *room) {
 	this->id = id;
 	this->room = room;
+	init();
 } // constructor
 
 Ball::Ball(int id, Room *room, float x, float y, float z) {
@@ -12,13 +13,23 @@ Ball::Ball(int id, Room *room, float x, float y, float z) {
 	pos.x = x;
 	pos.y = y;
 	pos.z = z;
+	init();
 } // constructor
 
 Ball::Ball(int id, Room *room, struct Position p) {
 	this->id = id;
 	this->room = room;
 	this->pos = p;
+	init();
 } // constructor
+
+void Ball::init() {
+	radius = 1.0f;
+	// points in the center of the room... well close
+	direction = Ogre::Vector3(0.1, 0.1, 0.1);
+	direction.normalise();
+	speed = 6;
+} // init
 
 /**
  * Creates and adds a spherical (Ball) object to the
@@ -28,7 +39,6 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
 	std::stringstream ballName, nodename;
 	ballName << "Sphere " << id;
 	nodename << "SphereNode " << id;
-	radius = 1.0f;
 
 	Ogre::Entity *ballEntity = sceneMgr.createEntity(ballName.str(), "sphere.mesh");
 	ballNode = sceneMgr.getRootSceneNode()->createChildSceneNode(nodename.str());
@@ -36,13 +46,16 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
 	ballNode->setScale(Ogre::Vector3(radius/100, radius/100, radius/100));
 	ballEntity->setCastShadows(true);
 	ballNode->attachObject(ballEntity);
-
-	srand(time(NULL));
-
-	direction = Ogre::Vector3(rand() % 50, rand() % 50, rand() % 50);
-	direction.normalise();
-	speed = 1;
 } // createObject
+
+void Ball::setSpeed(float speed) {
+	this->speed = speed;
+} // setSpeed
+
+void Ball::setDirection(float x, float y, float z) {
+	direction = Ogre::Vector3(x, y, z);
+	direction.normalise();
+} // setDirection
 
 /**
  * Sets the current position of the Ball to the supplied
@@ -60,14 +73,6 @@ void Ball::setPosition(float x, float y, float z) {
 struct Position Ball::getPosition() {
 	return pos;
 } // getPosition
-
-/**
- * This method is invoked when the 'cannon' or some such
- * object 'fires' the Ball (when the Ball is initially 
- * shown within the game world.
-  */
-void Ball::fire() {
-} // fire
 
 /**
  * This method is invoked while the Ball is actually moving
@@ -91,8 +96,6 @@ void Ball::move(const Ogre::FrameEvent &evt) {
 	pos.x = ballNode->getPosition().x;
 	pos.y = ballNode->getPosition().y;
 	pos.z = ballNode->getPosition().z;
-	speed *= 1.05;
-	speed = speed > 10 ? 10 : speed;
 } // move
 
 /**

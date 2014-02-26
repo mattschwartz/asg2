@@ -1,20 +1,24 @@
 #include "Room.h"
 #include "Ball.h"
+#include "Cannon.h"
 
 Room::Room() {
+	dimensions.width = 15;
+	dimensions.depth = 15;
+	dimensions.height = 15;
 	init();
 } // constructor
 
 Room::Room(float width, float depth, float height) {
-	init();
 	dimensions.width = width;
 	dimensions.depth = depth;
 	dimensions.height = height;
+	init();
 } // constructor
 
 Room::Room(struct Dimension d) {
-	init();
 	this->dimensions = d;
+	init();
 } // constructor
 
 /** 
@@ -22,7 +26,6 @@ Room::Room(struct Dimension d) {
  * in one, convenient function.
  */
 void Room::init() {
-	ball = new Ball(0, this, 0, 0, 0);
 
 	// Initialize planes that make up the room
 	floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
@@ -89,8 +92,9 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall2Node->attachObject(wall2Entity);
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
-
-	ball->createObject(sceneMgr);
+	
+	cannon = new Cannon(this, &sceneMgr, 0, -getHeight() / 2 + 1, 0);
+	printf("Room: width is %d\n", getWidth());
 } // createScene
 
 /**
@@ -137,5 +141,5 @@ float Room::getDepth() {
  * of its objects.
  */
 void Room::update(const Ogre::FrameEvent &evt) {
-	ball->update(evt);
+	cannon->update(evt);
 } // update

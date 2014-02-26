@@ -5,9 +5,9 @@ class SoundEffect;
 
 class SoundManager {
 private:
-	static SoundEffect *BALL_HIT_SOUND;
-	static SoundEffect *BALL_FIRED_SOUND;
-	static SoundEffect *SCORE_INCREASE_SOUND;
+	SoundEffect *BALL_HIT_SOUND;
+	SoundEffect *BALL_FIRED_SOUND;
+	SoundEffect *SCORE_INCREASE_SOUND;
 
 public:
 	SoundManager();

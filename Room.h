@@ -3,11 +3,11 @@
 #include <Ogre.h>
 #include "Common.h"
 
-class Ball;
+class Cannon;
 
 class Room {
 private:
-	Ball *ball;
+	Cannon *cannon;
     /* Room planes, 4 walls, a floor and a ceiling with 
         normals pointing inside */
     Ogre::Plane *floor;
