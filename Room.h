@@ -2,6 +2,7 @@
 #define _ROOM_H_
 #include <Ogre.h>
 #include "Common.h"
+#include "KeyMap.h"
 
 class Cannon;
 class SoundManager;
@@ -33,6 +34,7 @@ public:
 	float getHeight();
 	float getDepth();
 	void update(const Ogre::FrameEvent &evt);
+	void input(KeyCode keyPressed);
 };
 
 #endif
