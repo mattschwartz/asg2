@@ -46,6 +46,7 @@ TutorialApplication::TutorialApplication(void){
         
     select = Mix_LoadWAV("./media/sounds/menuSelect.wav");
     score = Mix_LoadWAV("./media/sounds/scoreChime.wav");
+    launch = Mix_LoadWAV("./media/sounds/launch.wav");
     hit = Mix_LoadWAV("./media/sounds/ballHit.wav");
 }
 //-------------------------------------------------------------------------------------
@@ -94,6 +95,7 @@ void TutorialApplication::createScene(void)
     
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
     CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+    CEGUI::MouseCursor::getSingleton().setPosition(CEGUI::Point(0,0));
     
     createMainMenu();
 
@@ -241,6 +243,7 @@ bool TutorialApplication::quit(const CEGUI::EventArgs &e)
     
     Mix_FreeChunk(select);
     Mix_FreeChunk(score);
+    Mix_FreeChunk(launch);
     Mix_FreeChunk(hit);
     Mix_CloseAudio();
     SDL_Quit();

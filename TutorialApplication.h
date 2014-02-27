@@ -37,6 +37,7 @@ private:
     bool soundToggle;
     Mix_Chunk *select;
     Mix_Chunk *score;
+    Mix_Chunk *launch;
     Mix_Chunk *hit;
 
 public:
