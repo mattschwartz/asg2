@@ -1,6 +1,5 @@
 #ifndef _SOUND_EFFECT_H_
 #define _SOUND_EFFECT_H_
-#include <Ogre.h>
 
 #ifdef _WIN32 
 	#include <SDL.h>

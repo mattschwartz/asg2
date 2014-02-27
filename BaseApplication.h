@@ -49,6 +49,7 @@ protected:
     virtual void createCamera(void);
     virtual void createFrameListener(void);
     virtual void createScene(void) = 0; // Override me!
+	virtual void updateScene(const Ogre::FrameEvent &evt) = 0;
     virtual void destroyScene(void);
     virtual void createViewports(void);
     virtual void setupResources(void);
