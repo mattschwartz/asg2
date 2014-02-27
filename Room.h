@@ -4,10 +4,12 @@
 #include "Common.h"
 
 class Cannon;
+class SoundManager;
 
 class Room {
 private:
 	Cannon *cannon;
+	SoundManager *soundMgr;
     /* Room planes, 4 walls, a floor and a ceiling with 
         normals pointing inside */
     Ogre::Plane *floor;
@@ -22,9 +24,9 @@ private:
 	void init();
 
 public:
-	Room();
-	Room(float width, float depth, float height);
-	Room(struct Dimension d);
+	Room(SoundManager *soundMgr);
+	Room(SoundManager *soundMgr, float width, float depth, float height);
+	Room(SoundManager *soundMgr, struct Dimension d);
 	void createScene(Ogre::SceneManager &sceneMgr);
 	bool intersects(struct Position point);
 	float getWidth();

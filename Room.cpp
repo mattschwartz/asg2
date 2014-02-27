@@ -1,22 +1,26 @@
 #include "Room.h"
 #include "Ball.h"
 #include "Cannon.h"
+#include "SoundManager.h"
 
-Room::Room() {
+Room::Room(SoundManager *soundMgr) {
+	this->soundMgr = soundMgr;
 	dimensions.width = 15;
 	dimensions.depth = 15;
 	dimensions.height = 15;
 	init();
 } // constructor
 
-Room::Room(float width, float depth, float height) {
+Room::Room(SoundManager *soundMgr, float width, float depth, float height) {
+	this->soundMgr = soundMgr;
 	dimensions.width = width;
 	dimensions.depth = depth;
 	dimensions.height = height;
 	init();
 } // constructor
 
-Room::Room(struct Dimension d) {
+Room::Room(SoundManager *soundMgr, struct Dimension d) {
+	this->soundMgr = soundMgr;
 	this->dimensions = d;
 	init();
 } // constructor
@@ -93,8 +97,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
 	
-	cannon = new Cannon(this, &sceneMgr, 0, -getHeight() / 2 + 1, 0);
-	printf("Room: width is %f\n", getWidth());
+	cannon = new Cannon(this, soundMgr, &sceneMgr, 0, -getHeight() / 2 + 1, 0);
 } // createScene
 
 /**

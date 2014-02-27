@@ -1,5 +1,5 @@
 #include "SoundManager.h"
-#include "SoundEffect.h"
+
 
 SoundManager::SoundManager() {
     if (SDL_Init(SDL_INIT_AUDIO) == -1)
