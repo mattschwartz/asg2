@@ -180,9 +180,10 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
         sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
         
     if (!menuOpen) {
-        float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
-        float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
-        paddleController->PositionPaddle(xPercent,yPercent,0.0f);
+        rm->mouseHandler(arg);
+//        float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
+//        float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
+//        paddleController->PositionPaddle(xPercent,yPercent,0.0f);
     }
     return true;
 }
@@ -254,10 +255,6 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
         mCamera->setPosition(0, 0, rm->getDepth() / 2 + 20);
         mCamera->lookAt(0, 0, 0);
         rm->createScene(*mSceneMgr);
-        Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
-        mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
-        paddleController = new PaddleController(paddle, rm->getWidth(), rm->getHeight(), rm->getDepth());
-        paddleController->PositionPaddle(0.5f,0.5f,0.0f);
         first = false;
     }
     

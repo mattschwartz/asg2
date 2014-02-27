@@ -60,5 +60,5 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 } // update
 
 void Cannon::restart() {
-    balls->clear();
+    balls.clear();
 } // restart

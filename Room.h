@@ -1,16 +1,21 @@
 #ifndef _ROOM_H_
 #define _ROOM_H_
 #include <Ogre.h>
+#include <OISMouse.h>
 #include "Common.h"
 #include "KeyMap.h"
 
 class Cannon;
 class SoundManager;
+class Paddle;
+class PaddleController;
 
 class Room {
 private:
 	Cannon *cannon;
 	SoundManager *soundMgr;
+    Paddle *paddle;
+    PaddleController *paddleController;
     /* Room planes, 4 walls, a floor and a ceiling with 
         normals pointing inside */
     Ogre::Plane *floor;
@@ -35,7 +40,8 @@ public:
 	float getDepth();
     void restart();
 	void update(const Ogre::FrameEvent &evt);
-	void input(KeyCode keyPressed);
+	void keyHandler(KeyCode keyPressed);
+    void mouseHandler(const OIS::MouseEvent &mouseEvt);
 };
 
 #endif

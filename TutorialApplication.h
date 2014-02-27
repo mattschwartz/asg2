@@ -26,8 +26,6 @@ This source file is part of the
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
-#include "Paddle.h"
-#include "PaddleController.h"
 #include "Room.h"
 #include "SoundManager.h"
 
@@ -42,7 +40,6 @@ public:
     virtual ~TutorialApplication(void);
 
 protected:
-    PaddleController* paddleController;
     CEGUI::OgreRenderer* mRenderer;
 
     virtual void createScene(void);
