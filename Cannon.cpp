@@ -43,7 +43,7 @@ void Cannon::fire() {
 	balls.push_back(ball);
 
 	// Play sound effect
-	soundMgr->playSoundEffect(soundMgr->BALL_FIRED_SOUND);
+	soundMgr->playSoundEffect(FIRE);
 } // fire
 
 void Cannon::update(const Ogre::FrameEvent &evt) {

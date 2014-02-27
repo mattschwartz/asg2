@@ -2,13 +2,17 @@
 #define _SOUND_EFFECT_H_
 #include <Ogre.h>
 
+#include "SDL/SDL.h"
+#include "SDL/SDL_mixer.h"
+
 class SoundEffect {
 private:
     Mix_Chunk *sound;
 public:
-	SoundEffect(char *filePath);
+	SoundEffect(const char* filePath);
+	~SoundEffect();
 	void play();
-	free();
+	void freeSound();
 };
 
 #endif

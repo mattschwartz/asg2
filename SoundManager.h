@@ -1,11 +1,9 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
-
-#include "SoundEffect.h"
 class SoundEffect;
+
+enum Sound {HIT, FIRE, SCORE, MENU};
 
 class SoundManager {
 private:
@@ -17,7 +15,8 @@ private:
 
 public:
 	SoundManager();
-	void playSoundEffect(SoundEffect *effect);
+	~SoundManager();
+	void playSoundEffect(Sound s);
 	void toggle();
 };
 
