@@ -34,6 +34,7 @@ private:
     SoundManager* soundMgr;
     Room* rm;
     bool menuOpen;
+    bool paused;
 
 public:
     TutorialApplication(void);
@@ -60,6 +61,7 @@ protected:
     void createMainMenu();
     bool quit(const CEGUI::EventArgs &e);
     bool startGame(const CEGUI::EventArgs &e);
+    bool resumeGame(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef _Project2_GUI_h_
