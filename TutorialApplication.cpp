@@ -37,7 +37,8 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
-    sm = new SoundManager();
+    soundMgr = new SoundManager();
+    menuOpen = true;
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -90,8 +91,8 @@ void TutorialApplication::createScene(void)
     createMainMenu();
 
     Dimension roomDimensions{25, 8.5, 25};
-    rm = new Room(sm, roomDimensions);
-    mCamera->setPosition(0, 0, rm->getDepth() * 2);
+    rm = new Room(soundMgr, roomDimensions);
+    mCamera->setPosition(0, 0, rm->getDepth() / 2 + 20);
     mCamera->lookAt(0, 0, 0);
     rm->createScene(*mSceneMgr);
     Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
@@ -146,10 +147,12 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //Need to inject timestamps to CEGUI System.
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
     
+    if (!menuOpen)
 	rm->update(evt);
 
     return true;
 }
+
 
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
@@ -159,11 +162,12 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     sys.injectChar(arg.text);
     
     if (arg.key == OIS::KC_ESCAPE || arg.key == OIS::KC_Q) {
+        menuOpen = true;
         createMainMenu();
     }
     
     else if (arg.key == OIS::KC_M) {
-        sm->toggle();
+        soundMgr->toggle();
     }
     
     return true;
@@ -185,9 +189,11 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
     if (arg.state.Z.rel)
         sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
         
+    if (!menuOpen) {
     float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
     float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
     paddleController->PositionPaddle(xPercent,yPercent,0.0f);
+    }
     return true;
 }
 
@@ -258,6 +264,8 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     sheet->addChildWindow(score);
     
     CEGUI::System::getSingleton().setGUISheet(sheet);
+    
+    menuOpen = false;
     
     return true;
 }
