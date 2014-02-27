@@ -1,35 +1,24 @@
-#ifndef _BALL_H_
-#define _BALL_H_
-
+#ifndef BALL_H
+#define BALL_H
+#include <memory>
+#include <btBulletDynamicsCommon.h>
 #include <Ogre.h>
-#include <sstream>
-#include "Common.h"
+using namespace std;
 
-class Room;
-
-class Ball {
-private:
-	int id; // allows for many balls
-	float radius;
-	float speed;
-	struct Position pos;
-	Room *room;
-	Ogre::Vector3 direction;
-	Ogre::SceneNode *ballNode;
-	void init();
-
-public:
-	Ball(int id, Room *room);
-	Ball(int id, Room *room, float x, float y, float z);
-	Ball(int id, Room *room, struct Position p);
-	void createObject(Ogre::SceneManager &sceneMgr);
-	void setSpeed(float speed);
-	void setDirection(float x, float y, float z);
-	void setPosition(float x, float y, float z);
-	struct Position getPosition();
-	void move(const Ogre::FrameEvent &evt);
-	void splat();
-	void update(const Ogre::FrameEvent &evt);
+class Ball{
+  public:
+    Ball(Ogre::SceneNode* node);
+    ~Ball();
+    btRigidBody* RigidBody();
+  private:
+    btVector3 _displacement;
+    btVector3 _velocity;
+    Ogre::SceneNode* _node;
+    unique_ptr<btDefaultMotionState> _motionState;
+    unique_ptr<btRigidBody> _rigidBody;
+    static const unique_ptr<btSphereShape> _shape;
+    static const btScalar _mass;
+    static const btScalar _radius;
+    static const btScalar _coefficientOfRestitution;
 };
-
 #endif

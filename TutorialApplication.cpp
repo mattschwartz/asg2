@@ -88,12 +88,23 @@ void TutorialApplication::createScene(void)
     
     createMainMenu();
 
-    Dimension roomDimensions{50.0f, 50.0f, 50.0f};
-    Room* room = new Room(roomDimensions);
-    room->createScene(*mSceneMgr);
-    Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
+    Ogre::SceneNode* courtNode = mSceneMgr->createSceneNode();
+    court = new Court(courtNode);
+    mSceneMgr->getRootSceneNode()->addChild(courtNode);
+    dynamicsWorld->addRigidBody(court->RightWallRigidBody());
+    dynamicsWorld->addRigidBody(court->LeftWallRigidBody());
+    dynamicsWorld->addRigidBody(court->CeilingRigidBody());
+    dynamicsWorld->addRigidBody(court->FloorRigidBody());
+    dynamicsWorld->addRigidBody(court->FarWallRigidBody());
+
+    Ogre::SceneNode* ballNode = mSceneMgr->createSceneNode();
+    Ball* ball = new Ball(ballNode);
+    mSceneMgr->getRootSceneNode()->addChild(ballNode);
+    dynamicsWorld->addRigidBody(ball->RigidBody());
+
+    Paddle* paddle = new Paddle(mSceneMgr, court->Width()/20, court->Height()/40, 0.0508f);
     mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
-    paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height, roomDimensions.depth);
+    paddleController = new PaddleController(paddle, court->Width(), court->Height(), court->Depth());
     paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 }
 

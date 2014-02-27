@@ -17,6 +17,8 @@ This source file is part of the
 #ifndef __TutorialApplication_h_
 #define __TutorialApplication_h_
 
+#include <btBulletDynamicsCommon.h>
+
 #include "BaseApplication.h"
 #include <sstream>
 #include <string>
@@ -26,7 +28,8 @@ This source file is part of the
 
 #include "Paddle.h"
 #include "PaddleController.h"
-#include "Room.h"
+#include "Court.h"
+#include "Ball.h"
 
 class TutorialApplication:public BaseApplication{
 public:
@@ -35,6 +38,7 @@ public:
     virtual ~TutorialApplication(void);
 
 protected:
+    Court* court;
     PaddleController* paddleController;
     CEGUI::OgreRenderer* mRenderer;
 
