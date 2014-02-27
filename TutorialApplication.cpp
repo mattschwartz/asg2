@@ -37,7 +37,16 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
-    soundOn = true;
+    soundToggle = true;
+    
+    if (SDL_Init(SDL_INIT_AUDIO) == -1)
+        mShutDown = true;
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
+        mShutDown = true;
+        
+    select = Mix_LoadWAV("./media/sounds/menuSelect.wav");
+    score = Mix_LoadWAV("./media/sounds/scoreChime.wav");
+    hit = Mix_LoadWAV("./media/sounds/ballHit.wav");
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -157,7 +166,7 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     }
     
     else if (arg.key == OIS::KC_M) {
-        soundOn = !soundOn;
+        soundToggle = !soundToggle;
     }
     
     return true;
@@ -227,6 +236,15 @@ void TutorialApplication::createMainMenu(void)
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 {
+    if (soundToggle)
+        Mix_PlayChannel(-1, select, 0);
+    
+    Mix_FreeChunk(select);
+    Mix_FreeChunk(score);
+    Mix_FreeChunk(hit);
+    Mix_CloseAudio();
+    SDL_Quit();
+    
     mShutDown = true;
     return true;
 }
@@ -234,6 +252,9 @@ bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
 {
+    if (soundToggle)
+        Mix_PlayChannel(-1, select, 0);
+        
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     wmgr.destroyAllWindows();

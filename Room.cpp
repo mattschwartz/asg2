@@ -94,7 +94,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall4Node->attachObject(wall4Entity);
 	
 	cannon = new Cannon(this, &sceneMgr, 0, -getHeight() / 2 + 1, 0);
-	printf("Room: width is %d\n", getWidth());
+	printf("Room: width is %f\n", getWidth());
 } // createScene
 
 /**

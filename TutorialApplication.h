@@ -20,7 +20,11 @@ This source file is part of the
 #include "BaseApplication.h"
 #include <sstream>
 #include <string>
+#include <iostream>
+#include <cassert>
 
+#include "SDL/SDL.h"
+#include "SDL/SDL_mixer.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
@@ -29,8 +33,13 @@ This source file is part of the
 #include "Room.h"
 
 class TutorialApplication:public BaseApplication{
+private:
+    bool soundToggle;
+    Mix_Chunk *select;
+    Mix_Chunk *score;
+    Mix_Chunk *hit;
+
 public:
-    bool soundOn;
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
 
