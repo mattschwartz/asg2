@@ -49,7 +49,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	createLights(sceneMgr);
 
 	// manage meshes for planes
-    createMeshes(sceneMgr);
+    createMeshes();
 
 	// Create plane entities
 	Ogre::Entity *floorEntity = sceneMgr.createEntity("FloorEntity", "floor");
@@ -104,20 +104,19 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
  * Sets up the lights for the room.
  */
 void Room::createLights(Ogre::SceneManager &sceneMgr) {
-	sceneMgr.setAmbientLight(Ogre::ColourValue(251, 242, 183));
-	Ogre::Light *light = sceneMgr.createLight("MainLight");
-	light->setPosition(0, getHeight() / 2 - 5, 0);
-	//Ogre::Light *light2 = sceneMgr.createLight("MainLight2");
-	//light2->setType(Ogre::Light::LT_SPOTLIGHT);
-	//light2->setPosition(Ogre::Vector3(251, 242, 183));
-	//light2->setSpecularColour(1.0, 1.0, 1.0);
-	sceneMgr.setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
+	sceneMgr.setAmbientLight(Ogre::ColourValue(0, 0, 0));
+	sceneMgr.setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+    Ogre::Light *pointLight = sceneMgr.createLight("pointLight");
+    pointLight->setType(Ogre::Light::LT_POINT);
+    pointLight->setPosition(0, getHeight() / 2 - 1, 0);
+    pointLight->setDiffuseColour(0.98f, 0.95f, 0.72f);
+    pointLight->setSpecularColour(1.0, 0.0, 0.0);
 } // createLights
 
 /**
  * Create the meshes for the 6 planes of the room
  */
-void Room::createMeshes(Ogre::SceneManager &sceneMgr) {
+void Room::createMeshes() {
 	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *floor, dimensions.width, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
 	Ogre::MeshManager::getSingleton().createPlane("ceiling", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *ceiling, dimensions.width, dimensions.depth, 20, 20, true, 1, 50, 50, Ogre::Vector3::UNIT_Z);
     

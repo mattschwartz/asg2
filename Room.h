@@ -21,7 +21,7 @@ private:
     Ogre::Plane *wall4;
 	struct Dimension dimensions;
 	void createLights(Ogre::SceneManager &sceneMgr);
-    void createMeshes(Ogre::SceneManager &sceneMgr);
+    void createMeshes();
 	void init();
 
 public:
