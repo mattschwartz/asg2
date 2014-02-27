@@ -12,11 +12,11 @@ Room::Room(SoundManager *soundMgr) {
     init();
 } // constructor
 
-Room::Room(SoundManager *soundMgr, float width, float depth, float height) {
+Room::Room(SoundManager *soundMgr, float width, float height, float depth) {
     this->soundMgr = soundMgr;
     dimensions.width = width;
-    dimensions.depth = depth;
     dimensions.height = height;
+    dimensions.depth = depth;
     init();
 } // constructor
 

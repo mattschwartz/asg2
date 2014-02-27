@@ -30,9 +30,9 @@ public:
 	void setDirection(float x, float y, float z);
 	void setPosition(float x, float y, float z);
 	struct Position getPosition();
-	void move(const Ogre::FrameEvent &evt);
+	bool move(const Ogre::FrameEvent &evt);
 	void splat();
-	void update(const Ogre::FrameEvent &evt);
+	bool update(const Ogre::FrameEvent &evt);
 };
 
 #endif

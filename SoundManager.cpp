@@ -6,6 +6,7 @@ SoundManager::SoundManager() {
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
         
 	BALL_HIT_SOUND = new SoundEffect("./media/sounds/ballHit.wav");
+    BALL_MISSED_SOUND = new SoundEffect("./media/sounds/miss.wav");
 	BALL_FIRED_SOUND = new SoundEffect("./media/sounds/launch.wav");
 	SCORE_INCREASE_SOUND = new SoundEffect("./media/sounds/scoreChime.wav");
 	MENU_SELECT_SOUND = new SoundEffect("./media/sounds/menuSelect.wav");
@@ -14,6 +15,7 @@ SoundManager::SoundManager() {
 
 SoundManager::~SoundManager() {
     BALL_HIT_SOUND->freeSound();
+    BALL_MISSED_SOUND->freeSound();
     BALL_FIRED_SOUND->freeSound();
     SCORE_INCREASE_SOUND->freeSound();
     MENU_SELECT_SOUND->freeSound();
@@ -25,6 +27,8 @@ void SoundManager::playSoundEffect(Sound s) {
 	if (toggleSound) {
 	    if (s == HIT)
 	        BALL_HIT_SOUND->play();
+        else if (s == MISS) 
+            BALL_MISSED_SOUND->play();
 	    else if (s == FIRE)
 	        BALL_FIRED_SOUND->play();
         else if (s == SCORE)

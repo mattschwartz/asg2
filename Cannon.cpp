@@ -46,6 +46,7 @@ void Cannon::fire() {
 } // fire
 
 void Cannon::update(const Ogre::FrameEvent &evt) {
+    int i = 0;
 	now = time_now();
 
 	if (now - last > rate * 1000) {
@@ -55,7 +56,12 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 
 	// Go through active balls, updating their positions
 	for (Ball *b : balls) {
-		b->update(evt);
+		if (!b->update(evt)) {
+//            b->deleteObject(*sceneMgr);
+//            balls.erase(balls.begin()+i);
+            i--;
+        }
+        i++;
 	} // for
 } // update
 
