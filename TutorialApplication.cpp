@@ -89,16 +89,6 @@ void TutorialApplication::createScene(void)
     CEGUI::MouseCursor::getSingleton().setPosition(CEGUI::Point(0,0));
     
     createMainMenu();
-
-    Dimension roomDimensions{25, 8.5, 25};
-    rm = new Room(soundMgr, roomDimensions);
-    mCamera->setPosition(0, 0, rm->getDepth() / 2 + 20);
-    mCamera->lookAt(0, 0, 0);
-    rm->createScene(*mSceneMgr);
-    Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
-    mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
-    paddleController = new PaddleController(paddle, rm->getWidth(), rm->getHeight(), rm->getDepth());
-    paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 }
 //-------------------------------------------------------------------------------------
 
@@ -148,7 +138,7 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
     
     if (!menuOpen)
-	rm->update(evt);
+	    rm->update(evt);
 
     return true;
 }
@@ -190,9 +180,9 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
         sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
         
     if (!menuOpen) {
-    float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
-    float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
-    paddleController->PositionPaddle(xPercent,yPercent,0.0f);
+        float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
+        float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
+        paddleController->PositionPaddle(xPercent,yPercent,0.0f);
     }
     return true;
 }
@@ -217,19 +207,25 @@ void TutorialApplication::createMainMenu(void)
     CEGUI::MouseCursor::getSingleton().show();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     wmgr.destroyAllWindows();
-    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/Sheet");
+    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "assignment2/Sheet");
     
     CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/QuitButton");
     quit->setText("Quit Game");
     quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
     
-    CEGUI::Window *fp = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/MainMenu/FreePlayButton");
+    CEGUI::Window *fp = wmgr.createWindow("TaharezLook/Button", "assignment2/MainMenu/FreePlayButton");
     fp->setText("Free Play");
     fp->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
     fp->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.5, 0)));
     
+    CEGUI::Window *title = wmgr.createWindow("TaharezLook/Titlebar", "assignment2/MainMenu/Title");
+    title->setText("Paddler");
+    title->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+    title->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.0, 0)));
+    
     sheet->addChildWindow(quit);
     sheet->addChildWindow(fp);
+    sheet->addChildWindow(title);
     CEGUI::System::getSingleton().setGUISheet(sheet);
     
     quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TutorialApplication::quit, this));
@@ -246,14 +242,28 @@ bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
 {
-        
+    soundMgr->playSoundEffect(MENU);
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     wmgr.destroyAllWindows();
     
+    static bool first = true;
+    if (first) {
+        Dimension roomDimensions{25, 8.5, 25};
+        rm = new Room(soundMgr, roomDimensions);
+        mCamera->setPosition(0, 0, rm->getDepth() / 2 + 20);
+        mCamera->lookAt(0, 0, 0);
+        rm->createScene(*mSceneMgr);
+        Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
+        mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
+        paddleController = new PaddleController(paddle, rm->getWidth(), rm->getHeight(), rm->getDepth());
+        paddleController->PositionPaddle(0.5f,0.5f,0.0f);
+        first = false;
+    }
+    
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
-    CEGUI::Window *score = wmgr.createWindow("TaharezLook/Button", "Project2-GUI/FreePlay/Score");
+    CEGUI::Window *score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
     int scoreNum = 0;
     std::ostringstream s;
     s << scoreNum;
