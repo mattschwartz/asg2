@@ -66,12 +66,12 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	Ogre::SceneNode *wall4Node = sceneMgr.getRootSceneNode()->createChildSceneNode("Wall4Node");
 
 	// Meshes
-	floorEntity->setMaterialName("E:/users/matt/desktop/appdirectory/media/materials/textures/dirtFloorTexture.jpeg");
-	ceilingEntity->setMaterialName("Examples/Rockwall");
-	wall1Entity->setMaterialName("Examples/Rockwall");
-	wall2Entity->setMaterialName("Examples/Rockwall");
-	wall3Entity->setMaterialName("Examples/Rockwall");
-	wall4Entity->setMaterialName("Examples/Rockwall");
+	floorEntity->setMaterialName("Examples/DirtFloor");
+	ceilingEntity->setMaterialName("Examples/CeilingTiles");
+	wall1Entity->setMaterialName("Examples/EnvMappedRustySteel");
+	wall2Entity->setMaterialName("Examples/EnvMappedRustySteel");
+	wall3Entity->setMaterialName("Examples/EnvMappedRustySteel");
+	wall4Entity->setMaterialName("Examples/EnvMappedRustySteel");
 
 	// Cast no shadows
 	floorEntity->setCastShadows(false);
@@ -97,7 +97,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	wall3Node->attachObject(wall3Entity);
 	wall4Node->attachObject(wall4Entity);
 	
-	cannon = new Cannon(this, soundMgr, &sceneMgr, 0, -getHeight() / 2 + 1, 0);
+	cannon = new Cannon(this, soundMgr, &sceneMgr, 0, 0, -getDepth() / 2 + 1);
 } // createScene
 
 /**
