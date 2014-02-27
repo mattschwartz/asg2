@@ -89,20 +89,17 @@ void TutorialApplication::createScene(void)
     
     createMainMenu();
 
-    Dimension roomDimensions{50.0f, 50.0f, 50.0f};
+    Dimension roomDimensions{25, 8.5, 25};
     rm = new Room(sm, roomDimensions);
-    rm->createScene(*mSceneMgr);
-    mCamera->setPosition(rm->getWidth() + 15, rm->getHeight() + 15, rm->getDepth() + 15);
+    mCamera->setPosition(0, 0, rm->getDepth() * 2);
     mCamera->lookAt(0, 0, 0);
+    rm->createScene(*mSceneMgr);
     Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
     mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
-    paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height, roomDimensions.depth);
+    paddleController = new PaddleController(paddle, rm->getWidth(), rm->getHeight(), rm->getDepth());
     paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 }
 //-------------------------------------------------------------------------------------
-void TutorialApplication::updateScene(const Ogre::FrameEvent &evt) {
-	rm->update(evt);
-} // updateScene
 
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createFrameListener(void)
@@ -148,6 +145,8 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     //Need to inject timestamps to CEGUI System.
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+    
+	rm->update(evt);
 
     return true;
 }

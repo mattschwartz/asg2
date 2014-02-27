@@ -66,12 +66,12 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
 	Ogre::SceneNode *wall4Node = sceneMgr.getRootSceneNode()->createChildSceneNode("Wall4Node");
 
 	// Meshes
-	floorEntity->setMaterialName("Examples/DirtFloor");
-	ceilingEntity->setMaterialName("Examples/CeilingTiles");
-	wall1Entity->setMaterialName("Examples/EnvMappedRustySteel");
-	wall2Entity->setMaterialName("Examples/EnvMappedRustySteel");
-	wall3Entity->setMaterialName("Examples/EnvMappedRustySteel");
-	wall4Entity->setMaterialName("Examples/EnvMappedRustySteel");
+	floorEntity->setMaterialName("Examples/Floor");
+	ceilingEntity->setMaterialName("Examples/Ceiling");
+	wall1Entity->setMaterialName("Examples/Wall");
+	wall2Entity->setMaterialName("Examples/Wall");
+	wall3Entity->setMaterialName("Examples/Wall");
+	wall4Entity->setMaterialName("Examples/Wall");
 
 	// Cast no shadows
 	floorEntity->setCastShadows(false);

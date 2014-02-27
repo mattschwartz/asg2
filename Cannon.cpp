@@ -37,7 +37,7 @@ void Cannon::fire() {
 	Ball *ball = new Ball(numBalls++, rm, pos);
 	srand(time(0));
 	ball->setDirection(rand() % 50, rand() % 50, rand() % 50);
-	ball->setSpeed((rand() % 100) / 10.0);
+	ball->setSpeed(max(5, (rand() % 100) / 10.0));
 	ball->createObject(*sceneMgr);
 	balls.push_back(ball);
 

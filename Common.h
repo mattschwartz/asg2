@@ -14,4 +14,8 @@ struct Position {
 	float z;
 };
 
+static float max(float a, float b) {
+    return a > b ? a : b;
+}
+
 #endif
