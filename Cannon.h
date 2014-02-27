@@ -32,6 +32,7 @@ public:
 	Cannon(Room *rm, SoundManager *soundMgr, Ogre::SceneManager *sceneMgr, float x, float y, float z);
 	void fire();
 	void update(const Ogre::FrameEvent &evt);
+    void restart();
 };
 
 #endif

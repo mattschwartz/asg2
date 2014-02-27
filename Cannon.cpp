@@ -58,3 +58,7 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 		b->update(evt);
 	} // for
 } // update
+
+void Cannon::restart() {
+    balls->clear();
+} // restart

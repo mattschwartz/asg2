@@ -138,6 +138,10 @@ float Room::getDepth() {
 	return dimensions.depth;
 } // getDepth
 
+void Room::restart() {
+    cannon.restart();
+} // restart
+
 /**
  * This function is invoked whenever the game needs to update all
  * of its objects.

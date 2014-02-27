@@ -33,6 +33,7 @@ public:
 	float getWidth();
 	float getHeight();
 	float getDepth();
+    void restart();
 	void update(const Ogre::FrameEvent &evt);
 	void input(KeyCode keyPressed);
 };
