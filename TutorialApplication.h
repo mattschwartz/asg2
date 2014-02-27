@@ -34,6 +34,7 @@ This source file is part of the
 class TutorialApplication:public BaseApplication{
 private:
     SoundManager* sm;
+    Room* rm;
 
 public:
     TutorialApplication(void);
@@ -46,6 +47,7 @@ protected:
     virtual void createScene(void);
     //virtual void createCamera(void);
     //virtual void createViewports(void);
+    virtual void updateScene(const Ogre::FrameEvent &evt);
     virtual void createFrameListener(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);  // Ogre::FrameListener
     
