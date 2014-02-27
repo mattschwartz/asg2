@@ -35,6 +35,7 @@ private:
     Room* rm;
     bool menuOpen;
     bool paused;
+    int scoreNum;
 
 public:
     TutorialApplication(void);

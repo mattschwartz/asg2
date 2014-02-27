@@ -4,6 +4,7 @@
 SoundManager::SoundManager() {
     SDL_Init(SDL_INIT_AUDIO);
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
+    Mix_Volume(-1, MIX_MAX_VOLUME);
         
 	BALL_HIT_SOUND = new SoundEffect("./media/sounds/ballHit.wav");
 	BALL_FIRED_SOUND = new SoundEffect("./media/sounds/launch.wav");

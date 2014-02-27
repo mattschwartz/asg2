@@ -38,11 +38,15 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
     soundMgr = new SoundManager();
+    rm = new Room(soundMgr, 25, 8.5, 25);
     menuOpen = true;
     paused = false;
+    scoreNum = 0;
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
+    delete soundMgr;
+    delete rm;
 }
 
 //-------------------------------------------------------------------------------------
@@ -265,9 +269,7 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     if (!first)
         rm->restart();
     
-    else {    
-        Dimension roomDimensions{25, 8.5, 25};
-        rm = new Room(soundMgr, roomDimensions);
+    else {   
         rm->createScene(*mSceneMgr);
         first = false;
     }
@@ -278,7 +280,7 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
     CEGUI::Window *score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
-    int scoreNum = 0;
+    scoreNum = 0;
     std::ostringstream s;
     s << scoreNum;
     score->setText(s.str());
@@ -306,7 +308,6 @@ bool TutorialApplication::resumeGame(const CEGUI::EventArgs &e)
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
     CEGUI::Window *score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
-    int scoreNum = 0;
     std::ostringstream s;
     s << scoreNum;
     score->setText(s.str());
