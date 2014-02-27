@@ -1,12 +1,7 @@
 #include "SoundManager.h"
-
+#include "SoundEffect.h"
 
 SoundManager::SoundManager() {
-    if (SDL_Init(SDL_INIT_AUDIO) == -1)
-        mShutDown = true;
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-        mShutDown = true;
-        
 	BALL_HIT_SOUND = new SoundEffect("./media/sounds/ballHit.wav");
 	BALL_FIRED_SOUND = new SoundEffect("./media/sounds/launch.wav");
 	SCORE_INCREASE_SOUND = new SoundEffect("./media/sounds/scoreChime.wav");
@@ -21,11 +16,12 @@ SoundManager::~SoundManager() {
     MENU_SELECT_SOUND->free();
     Mix_CloseAudio();
     SDL_Quit();
-}
+} // destructor
 
 void SoundManager::playSoundEffect(SoundEffect *effect) {
-	if (toggleSound)
+	if (toggleSound) {
 	    effect->play();
+	} // if
 } // playSoundEffect
 
 void SoundManager::toggle() {

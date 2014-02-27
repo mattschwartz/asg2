@@ -1,5 +1,5 @@
 #include "SoundEffect.h"
-
+#include <cstring>
 
 /**
  * Creates a new sound effect object by location
@@ -17,5 +17,5 @@ void SoundEffect::play() {
 } // play
 
 void SoundEffect::free() {
-    Mix_FreeChunk(this.sound);
+    Mix_FreeChunk(this->sound);
 }
