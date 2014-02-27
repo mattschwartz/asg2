@@ -34,10 +34,10 @@ ull Cannon::time_now() {
 } // now
 
 void Cannon::fire() {
-	Ball *ball = new Ball(numBalls++, rm, pos);
+	Ball *ball = new Ball(numBalls++, soundMgr, rm, pos);
 	srand(time(0));
-	ball->setDirection(rand() % 50, rand() % 50, rand() % 50);
-	ball->setSpeed(max(5, (rand() % 100) / 10.0));
+	ball->setDirection(rand() % 50, rand() % (int)rm->getHeight(), rand() % 50);
+	ball->setSpeed(max(15, (rand() % 30)));
 	ball->createObject(*sceneMgr);
 	balls.push_back(ball);
 
@@ -60,5 +60,8 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 } // update
 
 void Cannon::restart() {
+    for (Ball *b : balls) {
+        b->deleteObject(*sceneMgr);
+    }
     balls.clear();
 } // restart

@@ -1,14 +1,17 @@
 #include "Ball.h"
 #include "Room.h"
+#include "SoundManager.h"
 
-Ball::Ball(int id, Room *room) {
+Ball::Ball(int id, SoundManager *soundMgr, Room *room) {
 	this->id = id;
+    this->soundMgr = soundMgr;
 	this->room = room;
 	init();
 } // constructor
 
-Ball::Ball(int id, Room *room, float x, float y, float z) {
+Ball::Ball(int id, SoundManager *soundMgr, Room *room, float x, float y, float z) {
 	this->id = id;
+    this->soundMgr = soundMgr;
 	this->room = room;
 	pos.x = x;
 	pos.y = y;
@@ -16,15 +19,16 @@ Ball::Ball(int id, Room *room, float x, float y, float z) {
 	init();
 } // constructor
 
-Ball::Ball(int id, Room *room, struct Position p) {
+Ball::Ball(int id, SoundManager *soundMgr, Room *room, struct Position p) {
 	this->id = id;
+    this->soundMgr = soundMgr;
 	this->room = room;
 	this->pos = p;
 	init();
 } // constructor
 
 void Ball::init() {
-	radius = 1.0f;
+	radius = 0.5f;
 	// points in the center of the room... well close
 	direction = Ogre::Vector3(0.1, 0.1, 0.1);
 	direction.normalise();
@@ -47,6 +51,13 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
 	ballEntity->setCastShadows(true);
 	ballNode->attachObject(ballEntity);
 } // createObject
+
+void Ball::deleteObject(Ogre::SceneManager &sceneMgr) {
+	std::stringstream ballName;
+	ballName << "Sphere " << id;
+    
+    sceneMgr.destroyEntity(ballName.str());
+} // deleteObject
 
 void Ball::setSpeed(float speed) {
 	this->speed = speed;
@@ -84,8 +95,10 @@ void Ball::move(const Ogre::FrameEvent &evt) {
 		direction.y = -direction.y;
 	if (pos.y > room->getHeight()/2.0f - radius && direction.y > 0.0f) 
 		direction.y = -direction.y;
-	if (pos.z < -room->getDepth()/2.0f + radius && direction.z < 0.0f) 
+	if (pos.z < -room->getDepth()/2.0f + radius && direction.z < 0.0f) {
+        soundMgr->playSoundEffect(MISS);
 		direction.z = -direction.z;
+    }
 	if (pos.z > room->getDepth()/2.0f - radius && direction.z > 0.0f) 
 		direction.z = -direction.z;
 	if (pos.x < -room->getWidth()/2.0f + radius && direction.x < 0.0f) 

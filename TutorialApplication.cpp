@@ -162,6 +162,10 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
         soundMgr->toggle();
     }
     
+    else {
+        rm->keyHandler(arg);
+    }
+    
     return true;
 }
 

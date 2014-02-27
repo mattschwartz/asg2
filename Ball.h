@@ -6,6 +6,7 @@
 #include "Common.h"
 
 class Room;
+class SoundManager;
 
 class Ball {
 private:
@@ -13,16 +14,18 @@ private:
 	float radius;
 	float speed;
 	struct Position pos;
+    SoundManager *soundMgr;
 	Room *room;
 	Ogre::Vector3 direction;
 	Ogre::SceneNode *ballNode;
 	void init();
 
 public:
-	Ball(int id, Room *room);
-	Ball(int id, Room *room, float x, float y, float z);
-	Ball(int id, Room *room, struct Position p);
+	Ball(int id, SoundManager *soundMgr, Room *room);
+	Ball(int id, SoundManager *soundMgr, Room *room, float x, float y, float z);
+	Ball(int id, SoundManager *soundMgr, Room *room, struct Position p);
 	void createObject(Ogre::SceneManager &sceneMgr);
+    void deleteObject(Ogre::SceneManager &sceneMgr);
 	void setSpeed(float speed);
 	void setDirection(float x, float y, float z);
 	void setPosition(float x, float y, float z);
