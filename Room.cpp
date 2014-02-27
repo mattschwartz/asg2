@@ -146,3 +146,10 @@ float Room::getDepth() {
 void Room::update(const Ogre::FrameEvent &evt) {
 	cannon->update(evt);
 } // update
+
+void Room::input(KeyCode keyPressed) {
+	// Check if input was directed at paddle and if it was
+	// pass the keyPressed object down to it
+	// paddle.input(keyPressed);
+	// otherwise, ignore the input
+} // input
