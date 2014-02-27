@@ -23,22 +23,17 @@ This source file is part of the
 #include <iostream>
 #include <cassert>
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_mixer.h"
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
 #include "Paddle.h"
 #include "PaddleController.h"
 #include "Room.h"
+#include "SoundManager.h"
 
 class TutorialApplication:public BaseApplication{
 private:
     bool soundToggle;
-    Mix_Chunk *select;
-    Mix_Chunk *score;
-    Mix_Chunk *launch;
-    Mix_Chunk *hit;
 
 public:
     TutorialApplication(void);

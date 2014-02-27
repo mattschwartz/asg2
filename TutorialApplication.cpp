@@ -37,17 +37,6 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
-    soundToggle = true;
-    
-    if (SDL_Init(SDL_INIT_AUDIO) == -1)
-        mShutDown = true;
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-        mShutDown = true;
-        
-    select = Mix_LoadWAV("./media/sounds/menuSelect.wav");
-    score = Mix_LoadWAV("./media/sounds/scoreChime.wav");
-    launch = Mix_LoadWAV("./media/sounds/launch.wav");
-    hit = Mix_LoadWAV("./media/sounds/ballHit.wav");
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -238,16 +227,6 @@ void TutorialApplication::createMainMenu(void)
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 {
-    if (soundToggle)
-        Mix_PlayChannel(-1, select, 0);
-    
-    Mix_FreeChunk(select);
-    Mix_FreeChunk(score);
-    Mix_FreeChunk(launch);
-    Mix_FreeChunk(hit);
-    Mix_CloseAudio();
-    SDL_Quit();
-    
     mShutDown = true;
     return true;
 }
