@@ -3,6 +3,8 @@
 
 class SoundEffect;
 
+enum Sound {HIT, FIRE, SCORE, MENU};
+
 class SoundManager {
 private:
 	bool toggleSound;
@@ -14,7 +16,11 @@ public:
 	SoundEffect *MENU_SELECT_SOUND;
 	SoundManager();
 	~SoundManager();
+<<<<<<< HEAD
 	void playSoundEffect(SoundEffect *effect);
+=======
+	void playSoundEffect(Sound s);
+>>>>>>> 9ef05bc017e6aa330e4a58b28c72fd6aaabfc9d5
 	void toggle();
 };
 

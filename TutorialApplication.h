@@ -33,7 +33,7 @@ This source file is part of the
 
 class TutorialApplication:public BaseApplication{
 private:
-    bool soundToggle;
+    SoundManager* sm;
 
 public:
     TutorialApplication(void);

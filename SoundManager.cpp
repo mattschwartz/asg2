@@ -2,6 +2,9 @@
 #include "SoundEffect.h"
 
 SoundManager::SoundManager() {
+    SDL_Init(SDL_INIT_AUDIO);
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
+        
 	BALL_HIT_SOUND = new SoundEffect("./media/sounds/ballHit.wav");
 	BALL_FIRED_SOUND = new SoundEffect("./media/sounds/launch.wav");
 	SCORE_INCREASE_SOUND = new SoundEffect("./media/sounds/scoreChime.wav");
@@ -10,18 +13,25 @@ SoundManager::SoundManager() {
 } // constructor
 
 SoundManager::~SoundManager() {
-    BALL_HIT_SOUND->free();
-    BALL_FIRED_SOUND->free();
-    SCORE_INCREASE_SOUND->free();
-    MENU_SELECT_SOUND->free();
+    BALL_HIT_SOUND->freeSound();
+    BALL_FIRED_SOUND->freeSound();
+    SCORE_INCREASE_SOUND->freeSound();
+    MENU_SELECT_SOUND->freeSound();
     Mix_CloseAudio();
     SDL_Quit();
 } // destructor
 
-void SoundManager::playSoundEffect(SoundEffect *effect) {
+void SoundManager::playSoundEffect(Sound s) {
 	if (toggleSound) {
-	    effect->play();
-	} // if
+	    if (s == HIT)
+	        BALL_HIT_SOUND->play();
+	    else if (s == FIRE)
+	        BALL_FIRED_SOUND->play();
+        else if (s == SCORE)
+	        SCORE_INCREASE_SOUND->play();
+        else if (s == MENU)
+	        MENU_SELECT_SOUND->play();
+    }
 } // playSoundEffect
 
 void SoundManager::toggle() {

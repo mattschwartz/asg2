@@ -37,6 +37,7 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 
 //-------------------------------------------------------------------------------------
 TutorialApplication::TutorialApplication(void){
+    sm = new SoundManager();
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -89,8 +90,10 @@ void TutorialApplication::createScene(void)
     createMainMenu();
 
     Dimension roomDimensions{50.0f, 50.0f, 50.0f};
-    Room* room = new Room(roomDimensions);
-    room->createScene(*mSceneMgr);
+    Room* rm = new Room(sm, roomDimensions);
+    rm->createScene(*mSceneMgr);
+    mCamera->setPosition(rm->getWidth() + 15, rm->getHeight() + 15, rm->getDepth() + 15);
+    mCamera->lookAt(0, 0, 0);
     Paddle* paddle = new Paddle(mSceneMgr, 6.0f, 3.0f, 1.0f);
     mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
     paddleController = new PaddleController(paddle, roomDimensions.width, roomDimensions.height, roomDimensions.depth);
@@ -157,7 +160,7 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     }
     
     else if (arg.key == OIS::KC_M) {
-        soundToggle = !soundToggle;
+        sm->toggle();
     }
     
     return true;
@@ -234,8 +237,6 @@ bool TutorialApplication::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
 {
-    if (soundToggle)
-        Mix_PlayChannel(-1, select, 0);
         
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();

@@ -14,9 +14,10 @@ class SoundEffect {
 private:
     Mix_Chunk *sound;
 public:
-	SoundEffect(char *filePath);
+	SoundEffect(const char* filePath);
+	~SoundEffect();
 	void play();
-	void free();
+	void freeSound();
 };
 
 #endif
