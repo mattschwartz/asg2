@@ -26,8 +26,6 @@ This source file is part of the
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
-#include "Paddle.h"
-#include "PaddleController.h"
 #include "Room.h"
 #include "SoundManager.h"
 
@@ -35,8 +33,6 @@ class TutorialApplication:public BaseApplication{
 private:
     SoundManager* soundMgr;
     Room* rm;
-    Paddle* paddle;
-    PaddleController* paddleController;
     bool menuOpen;
     bool paused;
 
