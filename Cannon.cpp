@@ -24,7 +24,6 @@ void Cannon::init(float x, float y, float z) {
 	pos.x = x;
 	pos.y = y;
 	pos.z = z;
-	fire();
 	// used for spewing out new balls - temporary
 	last = time_now();
 	rate = 3;

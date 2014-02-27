@@ -34,6 +34,7 @@ This source file is part of the
 class TutorialApplication:public BaseApplication{
 private:
     SoundManager* sm;
+	Room *rm;
 
 public:
     TutorialApplication(void);

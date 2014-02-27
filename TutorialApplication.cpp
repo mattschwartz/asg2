@@ -90,7 +90,7 @@ void TutorialApplication::createScene(void)
     createMainMenu();
 
     Dimension roomDimensions{50.0f, 50.0f, 50.0f};
-    Room* rm = new Room(sm, roomDimensions);
+    rm = new Room(sm, roomDimensions);
     rm->createScene(*mSceneMgr);
     mCamera->setPosition(rm->getWidth() + 15, rm->getHeight() + 15, rm->getDepth() + 15);
     mCamera->lookAt(0, 0, 0);
