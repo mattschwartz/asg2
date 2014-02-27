@@ -1,18 +1,19 @@
 #ifndef _SOUND_H_
 #define _SOUND_H_
-
-class SoundEffect;
+#include "SoundEffect.h"
 
 class SoundManager {
 private:
+	bool soundEnabled;
+
+public:
 	SoundEffect *BALL_HIT_SOUND;
 	SoundEffect *BALL_FIRED_SOUND;
 	SoundEffect *SCORE_INCREASE_SOUND;
-
-public:
-	SoundManager();
+	
+	SoundManager::SoundManager();
 	void playSoundEffect(SoundEffect *effect);
-
+	void toggleSound();
 };
 
 #endif

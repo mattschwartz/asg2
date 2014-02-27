@@ -3,15 +3,18 @@
 #include "Cannon.h"
 #include "Room.h"
 #include "Ball.h"
+#include "SoundManager.h"
 
-Cannon::Cannon(Room *rm, Ogre::SceneManager *sceneMgr) {
+Cannon::Cannon(Room *rm, SoundManager *soundMgr, Ogre::SceneManager *sceneMgr) {
 	this->rm = rm;
+	this->soundMgr = soundMgr;
 	this->sceneMgr = sceneMgr;
 	init(0, 0, 0);
 } // constructor
 
-Cannon::Cannon(Room *rm, Ogre::SceneManager *sceneMgr, float x, float y, float z) {
+Cannon::Cannon(Room *rm, SoundManager *soundMgr, Ogre::SceneManager *sceneMgr, float x, float y, float z) {
 	this->rm = rm;
+	this->soundMgr = soundMgr;
 	this->sceneMgr = sceneMgr;
 	init(x, y, z);
 } // constructor
@@ -38,6 +41,9 @@ void Cannon::fire() {
 	ball->setSpeed((rand() % 100) / 10.0);
 	ball->createObject(*sceneMgr);
 	balls.push_back(ball);
+
+	// Play sound effect
+	soundMgr->playSoundEffect(soundMgr->BALL_FIRED_SOUND);
 } // fire
 
 void Cannon::update(const Ogre::FrameEvent &evt) {

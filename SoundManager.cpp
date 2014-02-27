@@ -1,12 +1,19 @@
 #include "SoundManager.h"
-#include "SoundEffect.h"
+
 
 SoundManager::SoundManager() {
 	BALL_HIT_SOUND = new SoundEffect("");
 	BALL_FIRED_SOUND = new SoundEffect("");
 	SCORE_INCREASE_SOUND = new SoundEffect("");
+	soundEnabled = false;
 } // constructor
 
 void SoundManager::playSoundEffect(SoundEffect *effect) {
-	effect->play();
+	if (soundEnabled) {
+		effect->play();
+	} // if
 } // playSoundEffect
+
+void SoundManager::toggleSound() {
+	soundEnabled = !soundEnabled;
+} // toggleSound

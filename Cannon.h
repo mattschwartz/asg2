@@ -9,12 +9,14 @@
 // Forward declarations
 class Room;
 class Ball;
+class SoundManager;
 
 class Cannon {
 private:
 	int numBalls;
 	struct Position pos;
 	Room *rm;
+	SoundManager *soundMgr;
 	Ogre::SceneManager *sceneMgr;
 	std::vector<Ball *> balls;
 	void init(float x, float y, float z);
@@ -26,8 +28,8 @@ private:
 	int rate; // in seconds
 
 public:
-	Cannon(Room *rm, Ogre::SceneManager *sceneMgr);
-	Cannon(Room *rm, Ogre::SceneManager *sceneMgr, float x, float y, float z);
+	Cannon(Room *rm, SoundManager *soundMgr, Ogre::SceneManager *sceneMgr);
+	Cannon(Room *rm, SoundManager *soundMgr, Ogre::SceneManager *sceneMgr, float x, float y, float z);
 	void fire();
 	void update(const Ogre::FrameEvent &evt);
 };
