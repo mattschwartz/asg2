@@ -231,7 +231,7 @@ void TutorialApplication::createMainMenu(void)
         CEGUI::Window *resume = wmgr.createWindow("TaharezLook/Button", "assignment2/MainMenu/ResumeButton");
         resume->setText("Resume");
         resume->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-        resume->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5, 0), CEGUI::UDim(0.0, 0)));
+        resume->setPosition(CEGUI::UVector2(CEGUI::UDim(0.4, 0), CEGUI::UDim(0.6, 0)));
         sheet->addChildWindow(resume);
         resume->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&TutorialApplication::resumeGame, this));
     }
@@ -260,13 +260,16 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     static bool first = true;
     if (!first)
         rm->restart();
-        
-    Dimension roomDimensions{25, 8.5, 25};
-    rm = new Room(soundMgr, roomDimensions);
+    
+    else {    
+        Dimension roomDimensions{25, 8.5, 25};
+        rm = new Room(soundMgr, roomDimensions);
+        rm->createScene(*mSceneMgr);
+        first = false;
+    }
+    
     mCamera->setPosition(0, 0, rm->getDepth() / 2 + 20);
     mCamera->lookAt(0, 0, 0);
-    rm->createScene(*mSceneMgr);
-    first = false;
     
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
