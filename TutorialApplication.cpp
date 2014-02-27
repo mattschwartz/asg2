@@ -100,6 +100,10 @@ void TutorialApplication::createScene(void)
     paddleController->PositionPaddle(0.5f,0.5f,0.0f);
 }
 
+void TutorialApplication::updateScene(const Ogre::FrameEvent &evt) {
+	rm->update(evt);
+} // updateScene
+
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createFrameListener(void)
 {
