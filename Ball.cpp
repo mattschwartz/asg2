@@ -48,6 +48,7 @@ void Ball::createObject(Ogre::SceneManager &sceneMgr) {
     ballNode = sceneMgr.getRootSceneNode()->createChildSceneNode(nodename.str());
     ballNode->setPosition(Ogre::Vector3(pos.x, pos.y, pos.z));
     ballNode->setScale(Ogre::Vector3(radius / 100, radius / 100, radius / 100));
+    ballEntity->setMaterialName("Examples/TennisBall");
     ballEntity->setCastShadows(true);
     ballNode->attachObject(ballEntity);
 } // createObject

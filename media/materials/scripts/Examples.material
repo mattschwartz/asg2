@@ -1,3 +1,17 @@
+material Examples/TennisBall
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture tennisBall.jpg
+            }
+        }
+    }
+}
+
 material Examples/SphereMappedRustySteel
 {
 	technique
