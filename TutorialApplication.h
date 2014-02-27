@@ -35,14 +35,16 @@ class TutorialApplication:public BaseApplication{
 private:
     SoundManager* soundMgr;
     Room* rm;
+    Paddle* paddle;
+    PaddleController* paddleController;
     bool menuOpen;
+    bool paused;
 
 public:
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
 
 protected:
-    PaddleController* paddleController;
     CEGUI::OgreRenderer* mRenderer;
 
     virtual void createScene(void);
@@ -63,6 +65,7 @@ protected:
     void createMainMenu();
     bool quit(const CEGUI::EventArgs &e);
     bool startGame(const CEGUI::EventArgs &e);
+    bool resumeGame(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef _Project2_GUI_h_
