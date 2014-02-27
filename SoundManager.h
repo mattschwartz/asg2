@@ -3,7 +3,7 @@
 
 class SoundEffect;
 
-enum Sound {HIT, FIRE, SCORE, MENU};
+enum Sound {HIT, FIRE, MISS, SCORE, MENU};
 
 class SoundManager {
 private:

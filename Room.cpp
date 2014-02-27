@@ -155,7 +155,7 @@ void Room::update(const Ogre::FrameEvent &evt) {
     cannon->update(evt);
 } // update
 
-void Room::keyHandler(KeyCode keyPressed) {
+void Room::keyHandler(const OIS::KeyEvent &keyEvt) {
     // Check if input was directed at paddle and if it was
     // pass the keyPressed object down to it
     // paddle.input(keyPressed);

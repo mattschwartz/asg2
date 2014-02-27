@@ -2,6 +2,7 @@
 #define _ROOM_H_
 #include <Ogre.h>
 #include <OISMouse.h>
+#include <OISKeyboard.h>
 #include "Common.h"
 #include "KeyMap.h"
 
@@ -40,7 +41,7 @@ public:
 	float getDepth();
     void restart();
 	void update(const Ogre::FrameEvent &evt);
-	void keyHandler(KeyCode keyPressed);
+	void keyHandler(const OIS::KeyEvent &keyEvt);
     void mouseHandler(const OIS::MouseEvent &mouseEvt);
 };
 
