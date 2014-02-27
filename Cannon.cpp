@@ -58,4 +58,4 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 	for (Ball *b : balls) {
 		b->update(evt);
 	} // for
-} // updage
+} // update
