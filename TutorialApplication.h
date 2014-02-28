@@ -35,7 +35,8 @@ private:
     Room* rm;
     bool menuOpen;
     bool paused;
-    int scoreNum;
+    bool scoreCreated;
+    CEGUI::Window *score;
 
 public:
     TutorialApplication(void);

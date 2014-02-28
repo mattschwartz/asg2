@@ -186,6 +186,7 @@ bool Room::paddleCollision(Ball &ball) {
 } // paddleCollision
 
 void Room::incrementScore() {
+    soundMgr->playSoundEffect(SCORE);
     score++;
 } // incrementScore
 

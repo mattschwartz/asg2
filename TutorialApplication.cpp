@@ -41,7 +41,7 @@ TutorialApplication::TutorialApplication(void){
     rm = new Room(soundMgr, 25, 8.5, 25);
     menuOpen = true;
     paused = false;
-    scoreNum = 0;
+    scoreCreated = false;
 }
 //-------------------------------------------------------------------------------------
 TutorialApplication::~TutorialApplication(void){
@@ -95,7 +95,6 @@ void TutorialApplication::createScene(void)
     
     createMainMenu();
 }
-//-------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createFrameListener(void)
@@ -144,6 +143,13 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     
     if (!menuOpen)
 	    rm->update(evt);
+	    
+    if (scoreCreated) {
+        int scoreNum = rm->getPlayerScore();
+        std::ostringstream s;
+        s << scoreNum;
+        score->setText(s.str());    
+    }
 
     return true;
 }
@@ -169,6 +175,7 @@ bool TutorialApplication::keyPressed(const OIS::KeyEvent &arg)
     else {
         rm->keyHandler(arg);
     }
+    
     
     return true;
 }
@@ -214,6 +221,7 @@ void TutorialApplication::createMainMenu(void)
 {
     CEGUI::MouseCursor::getSingleton().show();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    scoreCreated = false;
     wmgr.destroyAllWindows();
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "assignment2/Sheet");
     
@@ -263,6 +271,7 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     soundMgr->playSoundEffect(MENU);
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    scoreCreated = false;
     wmgr.destroyAllWindows();
 
     static bool first = true;
@@ -279,13 +288,10 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
-    CEGUI::Window *score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
-    scoreNum = 0;
-    std::ostringstream s;
-    s << scoreNum;
-    score->setText(s.str());
+    score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
     score->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
     score->setPosition(CEGUI::UVector2(CEGUI::UDim(0.85, 0), CEGUI::UDim(0.0, 0)));
+    scoreCreated = true;
     
     sheet->addChildWindow(score);
     
@@ -303,16 +309,15 @@ bool TutorialApplication::resumeGame(const CEGUI::EventArgs &e)
     soundMgr->playSoundEffect(MENU);
     CEGUI::MouseCursor::getSingleton().hide();
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    scoreCreated = false;
     wmgr.destroyAllWindows();
     
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     
-    CEGUI::Window *score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
-    std::ostringstream s;
-    s << scoreNum;
-    score->setText(s.str());
+    score = wmgr.createWindow("TaharezLook/StaticText", "Project2-GUI/FreePlay/Score");
     score->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
     score->setPosition(CEGUI::UVector2(CEGUI::UDim(0.85, 0), CEGUI::UDim(0.0, 0)));
+    scoreCreated = true;
     
     sheet->addChildWindow(score);
     
