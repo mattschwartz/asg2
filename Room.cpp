@@ -31,7 +31,7 @@ Room::Room(SoundManager *soundMgr, struct Dimension d) {
  * in one, convenient function.
  */
 void Room::init() {
-	score = 0;
+    score = 0;
     // Initialize planes that make up the room
     floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
     ceiling = new Ogre::Plane(-Ogre::Vector3::UNIT_Y, 0);
@@ -99,10 +99,10 @@ void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera *camera) {
     wall4Node->attachObject(wall4Entity);
 
     cannon = new Cannon(this, soundMgr, &sceneMgr, 0, 0, -getDepth() / 2 + 1);
-    paddle = new Paddle(&sceneMgr, 6.0f, 3.0f, 1.0f);
+    paddle = new Paddle(&sceneMgr, 3.0f, 1.5f, 1.0f);
     sceneMgr.getRootSceneNode()->addChild(paddle->getNode());
     paddleController = new PaddleController(paddle, camera, getWidth(), getHeight(), getDepth());
-    paddleController->PositionPaddle(0.5f, 0.5f, 0.0f);
+    paddleController->PositionPaddle(0,0,0);
 } // createScene
 
 /**
@@ -144,7 +144,7 @@ float Room::getDepth() {
 } // getDepth
 
 void Room::restart() {
-	score = 0;
+    score = 0;
     cannon->restart();
 } // restart
 
@@ -171,14 +171,24 @@ void Room::mouseHandler(const OIS::MouseEvent &mouseEvt) {
 } // mouseHandler
 
 bool Room::paddleCollision(Ball &ball) {
-	struct Position ballPosition = ball.getPosition();
-	return false;
+    struct Position ballPosition = ball.getPosition();
+    struct Position paddlePosition = paddle->getPosition();
+
+    if (ballPosition.x <= paddlePosition.x + paddle->getWidth() / 2 &&
+            ballPosition.x >= paddlePosition.x - paddle->getWidth() / 2) {
+        if (ballPosition.y <= paddlePosition.y + paddle->getHeight() / 2 &&
+                ballPosition.y >= paddlePosition.y - paddle->getHeight() / 2) {
+            return true;
+        }
+    }
+
+    return false;
 } // paddleCollision
 
 void Room::incrementScore() {
-	score++;
+    score++;
 } // incrementScore
 
 int Room::getPlayerScore() {
-	return score;
+    return score;
 } // getPlayerScore

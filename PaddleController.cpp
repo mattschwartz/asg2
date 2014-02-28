@@ -16,6 +16,6 @@ PaddleController::PaddleController(Paddle* paddle, Ogre::Camera *camera, float r
 void PaddleController::PositionPaddle(float percentX, float percentY, float percentZ) {
     _paddle->setPosition(percentX * (_maxX - _minX) + _minX, percentY * (_maxY - _minY) + _minY, _maxZ - percentZ * (_maxZ - _minZ));
     // Move the camera in some way
-    camera->setPosition(_paddle->getPosition().x, _paddle->getPosition().y, _paddle->getPosition().z);
+    camera->setPosition(_paddle->getPosition().x, _paddle->getPosition().y, _paddle->getPosition().z + 20);
     camera->lookAt(0, 0, 0);
 }

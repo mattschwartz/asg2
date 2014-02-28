@@ -105,14 +105,16 @@ bool Ball::move(const Ogre::FrameEvent &evt) {
         direction.z = -direction.z;
     }
     if (pos.z > room->getDepth() / 2.0f - radius && direction.z > 0.0f) {
-		if (room->paddleCollision(*this)) {
-			direction.z = -direction.z;
-			room->incrementScore();
-			soundMgr->playSoundEffect(HIT);
-		} // if
-		
-        soundMgr->playSoundEffect(MISS);
-        return false;
+        if (room->paddleCollision(*this)) {
+            direction.z = -direction.z;
+            room->incrementScore();
+            soundMgr->playSoundEffect(HIT);
+        }// if
+
+        else {
+            soundMgr->playSoundEffect(MISS);
+            return false;
+        } // else
     }
     if (pos.x < -room->getWidth() / 2.0f + radius && direction.x < 0.0f) {
         soundMgr->playSoundEffect(HIT);
