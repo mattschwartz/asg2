@@ -6,6 +6,7 @@
 #include "Common.h"
 #include "KeyMap.h"
 
+class Ball;
 class Cannon;
 class SoundManager;
 class Paddle;
@@ -13,6 +14,7 @@ class PaddleController;
 
 class Room {
 private:
+	int score;
 	Cannon *cannon;
 	SoundManager *soundMgr;
     Paddle *paddle;
@@ -34,7 +36,7 @@ public:
 	Room(SoundManager *soundMgr);
 	Room(SoundManager *soundMgr, float width, float depth, float height);
 	Room(SoundManager *soundMgr, struct Dimension d);
-	void createScene(Ogre::SceneManager &sceneMgr);
+	void createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera *camera);
 	bool intersects(struct Position point);
 	float getWidth();
 	float getHeight();
@@ -43,6 +45,9 @@ public:
 	void update(const Ogre::FrameEvent &evt);
 	void keyHandler(const OIS::KeyEvent &keyEvt);
     void mouseHandler(const OIS::MouseEvent &mouseEvt);
+	bool paddleCollision(Ball &ball);
+	void incrementScore();
+	int getPlayerScore();
 };
 
 #endif

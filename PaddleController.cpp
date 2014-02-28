@@ -1,6 +1,7 @@
 #include "PaddleController.h"
 
-PaddleController::PaddleController(Paddle* paddle, float rangeWidth, float rangeHeight, float rangeDepth):_paddle(paddle),_rangeWidth(rangeWidth),_rangeHeight(rangeHeight),_rangeDepth(rangeDepth){
+PaddleController::PaddleController(Paddle* paddle, Ogre::Camera *camera, float rangeWidth, float rangeHeight, float rangeDepth):_paddle(paddle),_rangeWidth(rangeWidth),_rangeHeight(rangeHeight),_rangeDepth(rangeDepth){
+	this->camera = camera;
   float paddleWidth = paddle->getWidth();
   float paddleHeight = paddle->getHeight();
   float paddleLength = paddle->getLength();
@@ -13,4 +14,7 @@ PaddleController::PaddleController(Paddle* paddle, float rangeWidth, float range
 }
 void PaddleController::PositionPaddle(float percentX, float percentY, float percentZ){
   _paddle->Position(percentX*(_maxX-_minX)+_minX, percentY*(_maxY-_minY)+_minY, _maxZ-percentZ*(_maxZ-_minZ));
+  // Move the camera in some way
+  camera->setPosition(percentX*(_maxX-_minX)+_minX, percentY*(_maxY-_minY)+_minY, _maxZ-percentZ*(_maxZ-_minZ));
+  camera->lookAt(0, 0, 0);
 }

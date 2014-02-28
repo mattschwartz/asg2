@@ -4,7 +4,7 @@
 #include <OgreSceneManager.h>
 #ifndef _PADDLE_H_
 #define _PADDLE_H_
-using namespace Ogre;
+
 class Paddle{
   protected:
     Ogre::SceneManager* scnMgr;
@@ -20,6 +20,6 @@ class Paddle{
     float getWidth();
     float getHeight();
     float getLength();
-    void Position(Real x, Real y, Real z);
+    void Position(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 };
 #endif

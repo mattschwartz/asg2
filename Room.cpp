@@ -31,7 +31,7 @@ Room::Room(SoundManager *soundMgr, struct Dimension d) {
  * in one, convenient function.
  */
 void Room::init() {
-
+	score = 0;
     // Initialize planes that make up the room
     floor = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
     ceiling = new Ogre::Plane(-Ogre::Vector3::UNIT_Y, 0);
@@ -45,7 +45,7 @@ void Room::init() {
  * Creates the scene, which is composed of 6 planes that enclose upon a
  * single point (i.e., it creates a room).
  */
-void Room::createScene(Ogre::SceneManager &sceneMgr) {
+void Room::createScene(Ogre::SceneManager &sceneMgr, Ogre::Camera *camera) {
     // Let there be lights
     createLights(sceneMgr);
 
@@ -101,7 +101,7 @@ void Room::createScene(Ogre::SceneManager &sceneMgr) {
     cannon = new Cannon(this, soundMgr, &sceneMgr, 0, 0, -getDepth() / 2 + 1);
     paddle = new Paddle(&sceneMgr, 6.0f, 3.0f, 1.0f);
     sceneMgr.getRootSceneNode()->addChild(paddle->getNode());
-    paddleController = new PaddleController(paddle, getWidth(), getHeight(), getDepth());
+    paddleController = new PaddleController(paddle, camera, getWidth(), getHeight(), getDepth());
     paddleController->PositionPaddle(0.5f, 0.5f, 0.0f);
 } // createScene
 
@@ -144,6 +144,7 @@ float Room::getDepth() {
 } // getDepth
 
 void Room::restart() {
+	score = 0;
     cannon->restart();
 } // restart
 
@@ -168,3 +169,16 @@ void Room::mouseHandler(const OIS::MouseEvent &mouseEvt) {
     float yPercent = ((float) (mouseEvt.state.height - mouseEvt.state.Y.abs)) / ((float) mouseEvt.state.height);
     paddleController->PositionPaddle(xPercent, yPercent, 0.0f);
 } // mouseHandler
+
+bool Room::paddleCollision(Ball &ball) {
+	struct Position ballPosition = ball.getPosition();
+	return false;
+} // paddleCollision
+
+void Room::incrementScore() {
+	score++;
+} // incrementScore
+
+int Room::getPlayerScore() {
+	return score;
+} // getPlayerScore
