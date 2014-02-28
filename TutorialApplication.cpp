@@ -270,7 +270,7 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
         rm->restart();
     
     else {   
-        rm->createScene(*mSceneMgr);
+        rm->createScene(*mSceneMgr, mCamera);
         first = false;
     }
     

@@ -57,8 +57,8 @@ void Cannon::update(const Ogre::FrameEvent &evt) {
 	// Go through active balls, updating their positions
 	for (Ball *b : balls) {
 		if (!b->update(evt)) {
-//            b->deleteObject(*sceneMgr);
-//            balls.erase(balls.begin()+i);
+            b->deleteObject(*sceneMgr);
+            balls.erase(balls.begin()+i);
             i--;
         }
         i++;

@@ -1,9 +1,9 @@
 #include "Paddle.h"
 
-class PaddleController{
-  private:
+class PaddleController {
+private:
     Paddle* _paddle;
-	Ogre::Camera *camera;
+    Ogre::Camera *camera;
     float _rangeWidth;
     float _rangeHeight;
     float _rangeDepth;
@@ -13,7 +13,7 @@ class PaddleController{
     float _maxY;
     float _minZ;
     float _maxZ;
-  public:
+public:
     void PositionPaddle(float percentX, float percentY, float percentZ);
     PaddleController(Paddle* paddle, Ogre::Camera *camera, float rangeWidth, float rangeHeight, float rangeDepth);
     ~PaddleController();

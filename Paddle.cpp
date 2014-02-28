@@ -5,8 +5,17 @@
 
 using namespace Ogre;
 
-void Paddle::Position(Real x, Real y, Real z){
+void Paddle::setPosition(Real x, Real y, Real z){
   node->setPosition(x, y, z);
+}
+
+struct Position Paddle::getPosition() {
+    struct Position p;
+    
+    p.x = node->getPosition().x;
+    p.y = node->getPosition().y;
+    p.z = node->getPosition().z;
+    return p;
 }
 
 Paddle::Paddle(Ogre::SceneManager* scnMgr, float width, float height, float length):scnMgr(scnMgr),width(width),height(height),length(length){
