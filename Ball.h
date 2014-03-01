@@ -10,13 +10,14 @@ class Ball{
     Ball(Ogre::SceneNode* node);
     ~Ball();
     btRigidBody* RigidBody();
+    btMotionState* MotionState();
   private:
     btVector3 _displacement;
     btVector3 _velocity;
     Ogre::SceneNode* _node;
     unique_ptr<btDefaultMotionState> _motionState;
     unique_ptr<btRigidBody> _rigidBody;
-    static const unique_ptr<btSphereShape> _shape;
+    unique_ptr<btSphereShape> _shape;
     static const btScalar _mass;
     static const btScalar _radius;
     static const btScalar _coefficientOfRestitution;

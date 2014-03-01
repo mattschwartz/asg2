@@ -43,34 +43,24 @@ TutorialApplication::TutorialApplication(void){
 TutorialApplication::~TutorialApplication(void){
 }
 
-//-------------------------------------------------------------------------------------
-/*void Project2-GUI::createCamera(void)
-{
-    // create the camera
+void TutorialApplication::createCamera(void){
     mCamera = mSceneMgr->createCamera("PlayerCam");
-    
-    // set its position, direction
-    mCamera->setPosition(Ogre::Vector3(0.0f,0.0f,-100.0f));
+    float nearClipDistance{court->Width()/2*tan(3*M_PI/8)};
+    mCamera->setPosition(Ogre::Vector3(0,0,nearClipDistance+court->Depth()/2));
+    // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,0));
-    
-    // set the near clip distance
-    mCamera->setNearClipDistance(5);
-    
-    // create a default camera controller
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+    mCamera->setNearClipDistance(nearClipDistance);
 }
 
-//-------------------------------------------------------------------------------------
-void Project2-GUI::createViewports(void)
-{
+void TutorialApplication::createViewports(void){
     // Create one viewport, entire window
     Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-    
     vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-    
+
     // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-}*/
+    mCamera->setAspectRatio(
+        Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+}
 
 //-------------------------------------------------------------------------------------
 void TutorialApplication::createScene(void)
@@ -88,7 +78,15 @@ void TutorialApplication::createScene(void)
     
     createMainMenu();
 
-    Ogre::SceneNode* courtNode = mSceneMgr->createSceneNode();
+    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2f, 0.2f, 0.2f));
+    Ogre::Light* pointLight = mSceneMgr->createLight("pointLight");
+    pointLight->setType(Ogre::Light::LT_POINT);
+    pointLight->setPosition(Ogre::Vector3(.85*court->Width()/2,.85*court->Height()/2,.85*court->Depth()/2));
+    pointLight->setDiffuseColour(Ogre::ColourValue::White);
+    pointLight->setSpecularColour(Ogre::ColourValue::White);
+    pointLight->setAttenuation(3250, 1.0, 0.0, 0.000007);
+
+    courtNode = mSceneMgr->createSceneNode();
     court = new Court(courtNode);
     mSceneMgr->getRootSceneNode()->addChild(courtNode);
     dynamicsWorld->addRigidBody(court->RightWallRigidBody());
@@ -97,15 +95,17 @@ void TutorialApplication::createScene(void)
     dynamicsWorld->addRigidBody(court->FloorRigidBody());
     dynamicsWorld->addRigidBody(court->FarWallRigidBody());
 
-    Ogre::SceneNode* ballNode = mSceneMgr->createSceneNode();
-    Ball* ball = new Ball(ballNode);
+    ballNode = mSceneMgr->createSceneNode();
+    ball = new Ball(ballNode);
     mSceneMgr->getRootSceneNode()->addChild(ballNode);
     dynamicsWorld->addRigidBody(ball->RigidBody());
 
-    Paddle* paddle = new Paddle(mSceneMgr, court->Width()/20, court->Height()/40, 0.0508f);
-    mSceneMgr->getRootSceneNode()->addChild(paddle->getNode());
+    Ogre::SceneNode* paddleNode = mSceneMgr->createSceneNode();
+    Paddle* paddle = new Paddle(paddleNode, court->Width()/15, court->Height()/30, 0.0508f);
+    courtNode->addChild(paddleNode);
     paddleController = new PaddleController(paddle, court->Width(), court->Height(), court->Depth());
-    paddleController->PositionPaddle(0.5f,0.5f,0.0f);
+    paddleController->PositionPaddle(0.5f,0.5f,0.05f);
+    dynamicsWorld->addRigidBody(paddle->RigidBody());
 }
 
 //-------------------------------------------------------------------------------------
@@ -138,8 +138,7 @@ void TutorialApplication::createFrameListener(void)
 }
 
 //-------------------------------------------------------------------------------------
-bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt) 
-{
+bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt){
     if(mWindow->isClosed())
         return false;
 
@@ -153,7 +152,15 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt)
     //Need to inject timestamps to CEGUI System.
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
+    dynamicsWorld->stepSimulation(evt.timeSinceLastFrame, 1, 1.0f/60.0f);
     return true;
+}
+
+void TutorialApplication::handleStep(btDynamicsWorld* world,btScalar timeStep){
+  btTransform t;
+  ball->MotionState()->getWorldTransform(t);
+  btVector3 position = t.getOrigin();
+  ballNode->setPosition(position.x(),position.y(),position.z());
 }
 
 //-------------------------------------------------------------------------------------
@@ -192,7 +199,7 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
         
     float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
     float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
-    paddleController->PositionPaddle(xPercent,yPercent,0.0f);
+    paddleController->PositionPaddle(xPercent,yPercent,0.05f);
     return true;
 }
 
@@ -284,7 +291,7 @@ extern "C" {
     {
         // Create application object
         TutorialApplication app;
-
+        application = &app;
         try {
             app.go();
         } catch( Ogre::Exception& e ) {

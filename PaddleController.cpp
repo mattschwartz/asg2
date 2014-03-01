@@ -1,9 +1,9 @@
 #include "PaddleController.h"
 
 PaddleController::PaddleController(Paddle* paddle, float rangeWidth, float rangeHeight, float rangeDepth):_paddle(paddle),_rangeWidth(rangeWidth),_rangeHeight(rangeHeight),_rangeDepth(rangeDepth){
-  float paddleWidth = paddle->getWidth();
-  float paddleHeight = paddle->getHeight();
-  float paddleLength = paddle->getLength();
+  float paddleWidth = paddle->Width();
+  float paddleHeight = paddle->Height();
+  float paddleLength = paddle->Length();
   _minX = -rangeWidth/2 + paddleWidth/2;
   _maxX = rangeWidth/2 - paddleWidth/2;
   _minY = -rangeHeight/2 + paddleHeight/2;

@@ -40,7 +40,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
 
   plane = Ogre::Plane(Vector3(0.0f,-1.0f,0.0f),-_height/2);
   planeNode = node->createChildSceneNode();
-  Ogre::MeshManager::getSingleton().createPlane("CeilingMesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,plane,_width,_depth,1,1,true,1,1,1,Vector3::UNIT_X);
+  Ogre::MeshManager::getSingleton().createPlane("CeilingMesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,plane,_depth,_width,1,1,true,1,1,1,Vector3::UNIT_X);
   entity = node->getCreator()->createEntity("CeilingMesh");
   entity->setMaterialName("WallColor");
   planeNode->attachObject(entity);
@@ -53,7 +53,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
 
   plane = Ogre::Plane(Vector3(0.0f,1.0f,0.0f),-_height/2);
   planeNode = node->createChildSceneNode();
-  Ogre::MeshManager::getSingleton().createPlane("FloorMesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,plane,_width,_depth,1,1,true,1,1,1,Vector3::UNIT_X);
+  Ogre::MeshManager::getSingleton().createPlane("FloorMesh", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,plane,_depth,_width,1,1,true,1,1,1,Vector3::UNIT_X);
   entity = node->getCreator()->createEntity("FloorMesh");
   entity->setMaterialName("WallColor");
   planeNode->attachObject(entity);

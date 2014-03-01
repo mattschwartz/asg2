@@ -1,11 +1,11 @@
-material PaddleColor
+material WallColor
 {
         technique
         {
                 pass
                 {
-                        ambient 0.29 0.72 0.85
-                        diffuse 0.29 0.72 0.85
+                        ambient 0.5 0.5 0.5
+                        diffuse 0.8 0.8 0.8
                         emissive 0.0 0.0 0.0
                 }
         }

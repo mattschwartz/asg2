@@ -36,15 +36,18 @@ public:
     bool soundOn;
     TutorialApplication(void);
     virtual ~TutorialApplication(void);
-
+    virtual void handleStep(btDynamicsWorld*,btScalar);
 protected:
     Court* court;
+    Ogre::SceneNode* courtNode;
     PaddleController* paddleController;
+    Ball* ball;
+    Ogre::SceneNode* ballNode; 
     CEGUI::OgreRenderer* mRenderer;
 
     virtual void createScene(void);
-    //virtual void createCamera(void);
-    //virtual void createViewports(void);
+    virtual void createCamera(void);
+    virtual void createViewports(void);
     virtual void createFrameListener(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);  // Ogre::FrameListener
     
