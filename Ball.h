@@ -11,6 +11,7 @@ class Ball{
     ~Ball();
     btRigidBody* RigidBody();
     btMotionState* MotionState();
+    btScalar Radius();
   private:
     btVector3 _displacement;
     btVector3 _velocity;

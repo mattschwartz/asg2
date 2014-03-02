@@ -3,16 +3,22 @@
 
 class SoundEffect;
 
+enum Sound {HIT, FIRE, MISS, SCORE, MENU};
+
 class SoundManager {
 private:
-	SoundEffect *BALL_HIT_SOUND;
-	SoundEffect *BALL_FIRED_SOUND;
-	SoundEffect *SCORE_INCREASE_SOUND;
+	bool toggleSound;
 
 public:
+	SoundEffect *BALL_HIT_SOUND;
+	SoundEffect *BALL_FIRED_SOUND;
+    SoundEffect *BALL_MISSED_SOUND;
+	SoundEffect *SCORE_INCREASE_SOUND;
+	SoundEffect *MENU_SELECT_SOUND;
 	SoundManager();
-	void playSoundEffect(SoundEffect *effect);
-
+	~SoundManager();
+	void playSoundEffect(Sound s);
+	void toggle();
 };
 
 #endif

@@ -1,3 +1,18 @@
+material Examples/TennisBall
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture ballTexture.jpg
+                tex_address_mode wrap
+            }
+        }
+    }
+}
+
 material Examples/SphereMappedRustySteel
 {
 	technique
@@ -1435,7 +1450,7 @@ material Examples/Rockwall
 		{
 			texture_unit
 			{
-				texture rockwall.tga
+				texture floor.jpg
 			}
 		}
 	}
@@ -1755,6 +1770,50 @@ material Examples/ShowNormals
 			}
 
 			
+		}
+	}
+}
+
+material Examples/Floor
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture floor.jpg
+			}
+		}
+	}
+}
+
+
+material Examples/Wall
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture wall.jpg
+			}
+		}
+	}
+}
+
+
+material Examples/Ceiling
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture ceiling.jpg
+			}
 		}
 	}
 }

@@ -22,16 +22,27 @@ This source file is part of the
 #include "BaseApplication.h"
 #include <sstream>
 #include <string>
+#include <iostream>
+#include <cassert>
 
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 
+#include "SoundManager.h"
 #include "Paddle.h"
 #include "PaddleController.h"
 #include "Court.h"
 #include "Ball.h"
+#include "Launcher.h"
 
 class TutorialApplication:public BaseApplication{
+private:
+    SoundManager* soundMgr;
+    bool menuOpen;
+    bool paused;
+    bool scoreCreated;
+    CEGUI::Window *score;
+
 public:
     bool soundOn;
     TutorialApplication(void);
@@ -42,8 +53,10 @@ protected:
     Ogre::SceneNode* courtNode;
     PaddleController* paddleController;
     Ball* ball;
+    Launcher* launcher;
     Ogre::SceneNode* ballNode; 
     CEGUI::OgreRenderer* mRenderer;
+    int _score;
 
     virtual void createScene(void);
     virtual void createCamera(void);
@@ -63,6 +76,7 @@ protected:
     void createMainMenu();
     bool quit(const CEGUI::EventArgs &e);
     bool startGame(const CEGUI::EventArgs &e);
+    bool resumeGame(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef _Project2_GUI_h_

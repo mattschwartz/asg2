@@ -16,12 +16,16 @@ Ball::Ball(Ogre::SceneNode* node):_node{node}{
   _rigidBody->setLinearVelocity(btVector3{0,0,-10});
 }
 
+btScalar Ball::Radius(){
+  return _radius;
+}
 btRigidBody* Ball::RigidBody(){
   return _rigidBody.get();
 }
 btMotionState* Ball::MotionState(){
   return _motionState.get();
 };
+
 const btScalar Ball::_radius{0.127f};
 const btScalar Ball::_mass{0.623689f};
 const btScalar Ball::_coefficientOfRestitution{0.92f};
