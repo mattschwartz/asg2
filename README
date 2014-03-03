@@ -5,8 +5,11 @@ CS: mpass
 Matt Schwartz
 EID: mas7729
 
-Richard
+Richard Lage
 
+We are using all three slip days for this assignment.
+
+Matt previously turned in his personal version of the project that doesn't even use Bullet.  Please disregard it.  The version I'm turning in now uses Bullet.
 
 To build:
 ./buildit
