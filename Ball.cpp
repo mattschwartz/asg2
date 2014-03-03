@@ -28,4 +28,4 @@ btMotionState* Ball::MotionState(){
 
 const btScalar Ball::_radius{0.127f};
 const btScalar Ball::_mass{0.623689f};
-const btScalar Ball::_coefficientOfRestitution{0.92f};
+const btScalar Ball::_coefficientOfRestitution{0.728f};

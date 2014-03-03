@@ -9,7 +9,7 @@ void Paddle::Position(Real x, Real y, Real z){
   _node->setPosition(x, y, z);
   btVector3 p{x,y,z};
   btTransform t;
-  t.setIdentity();
+  _rigidBody->getMotionState()->getWorldTransform(t);
   t.setOrigin(p);
   _rigidBody->getMotionState()->setWorldTransform(t);
 }
@@ -63,6 +63,8 @@ Paddle::Paddle(Ogre::SceneNode* node, float width, float height, float length):_
 
   _shape = unique_ptr<btCollisionShape>(new btBoxShape(btVector3{_width/2,_height/2,_length/2}));
   _motionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
+  btTransform t{btQuaternion{btVector3{1,0,0},M_PI/6}};
+  _motionState->setWorldTransform(t);
   btRigidBody::btRigidBodyConstructionInfo rigidBodyInfo(0,_motionState.get(),_shape.get());
   _rigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
   _rigidBody->setRestitution(_coefficientOfRestitution);
@@ -79,4 +81,4 @@ btMotionState* Paddle::MotionState(){
 float Paddle::Width(){return _width;}
 float Paddle::Height(){return _height;}
 float Paddle::Length(){return _length;}
-const btScalar Paddle::_coefficientOfRestitution{1.0f};
+const btScalar Paddle::_coefficientOfRestitution{4.0f};

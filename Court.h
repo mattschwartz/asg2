@@ -25,6 +25,7 @@ class Court{
     static const btScalar _height;
     static const btScalar _depth;
     static const btScalar _coefficientOfRestitution;
+    static const btScalar _friction;
     unique_ptr<btCollisionShape> _leftWallShape;
     unique_ptr<btDefaultMotionState> _leftWallMotionState;
     unique_ptr<btRigidBody> _leftWallRigidBody;

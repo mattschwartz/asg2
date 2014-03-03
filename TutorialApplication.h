@@ -57,6 +57,7 @@ protected:
     Ogre::SceneNode* ballNode; 
     CEGUI::OgreRenderer* mRenderer;
     int _score;
+    btVector3 _launchOrigin;
 
     virtual void createScene(void);
     virtual void createCamera(void);

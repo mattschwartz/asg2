@@ -7,7 +7,8 @@ SoundManager::SoundManager() {
     Mix_Volume(-1, MIX_MAX_VOLUME);
         
 	BALL_HIT_SOUND = new SoundEffect("./media/sounds/ballHit.wav");
-    BALL_MISSED_SOUND = new SoundEffect("./media/sounds/miss.wav");
+    //BALL_MISSED_SOUND = new SoundEffect("./media/sounds/miss.wav");
+    BALL_MISSED_SOUND = new SoundEffect("./media/sounds/menuSelect.wav");
 	BALL_FIRED_SOUND = new SoundEffect("./media/sounds/launch.wav");
 	SCORE_INCREASE_SOUND = new SoundEffect("./media/sounds/scoreChime.wav");
 	MENU_SELECT_SOUND = new SoundEffect("./media/sounds/menuSelect.wav");

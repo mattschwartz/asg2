@@ -15,7 +15,6 @@ This source file is part of the
 -----------------------------------------------------------------------------
 */
 #include "TutorialApplication.h"
-
 //-------------------------------------------------------------------------------------
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 {
@@ -104,15 +103,17 @@ void TutorialApplication::createScene(void)
     ballNode = mSceneMgr->createSceneNode();
     ball = new Ball(ballNode);
     courtNode->addChild(ballNode);
+    dynamicsWorld->addRigidBody(ball->RigidBody());
 
     Ogre::SceneNode* paddleNode = mSceneMgr->createSceneNode();
-    Paddle* paddle = new Paddle(paddleNode, court->Width()/15, court->Height()/30, 0.0508f);
+    Paddle* paddle = new Paddle(paddleNode, court->Width()/10, court->Height()/20, 0.0508f);
     courtNode->addChild(paddleNode);
     paddleController = new PaddleController(paddle, court->Width(), court->Height(), court->Depth());
     paddleController->PositionPaddle(0.5f,0.5f,0.05f);
     dynamicsWorld->addRigidBody(paddle->RigidBody());
 
     launcher = new Launcher();
+    _launchOrigin=btVector3(0,0,-court->Depth()/2+1.05*ball->Radius());
 }
 
 //-------------------------------------------------------------------------------------
@@ -172,15 +173,65 @@ bool TutorialApplication::frameRenderingQueued(const Ogre::FrameEvent& evt){
 }
 
 void TutorialApplication::handleStep(btDynamicsWorld* world,btScalar timeStep){
+  static int stepsSinceMiss{0};
+  static int hitStreak{0};
+  static int missStreak{0};
+  static btVector3 lastPosition;
   btTransform t;
   ball->MotionState()->getWorldTransform(t);
   btVector3 position = t.getOrigin();
-  if(position.z()>court->Depth()/2){
-    launcher->Launch(ball,btVector3{0,0,-court->Depth()/2+ball->Radius()});
-    ballNode->setPosition(0,0,-court->Depth()/2+ball->Radius());
+  btVector3 difference{position};
+  if(position.z()>court->Depth()/2 || (difference-=lastPosition).length()<0.0001){
+    if(position.z()>court->Depth()/2){
+      if(++stepsSinceMiss<60){
+        if(stepsSinceMiss==1){
+          soundMgr->playSoundEffect(MISS);
+          missStreak=hitStreak?1:missStreak+1;
+          hitStreak=0;
+          _score=_score>=missStreak?_score-missStreak:0;
+        }
+        ballNode->setPosition(position.x(),position.y(),position.z());
+      }else{
+        stepsSinceMiss=0;
+        soundMgr->playSoundEffect(FIRE);
+        launcher->Launch(ball,_launchOrigin);
+        ballNode->setPosition(0,0,-court->Depth()/2+ball->Radius());
+      }
+    }else{
+      soundMgr->playSoundEffect(FIRE);
+      launcher->Launch(ball,_launchOrigin);
+      ballNode->setPosition(0,0,-court->Depth()/2+ball->Radius());
+    }
   }else{
     ballNode->setPosition(position.x(),position.y(),position.z());
+    bool ballCollided{false};
+    bool ballCollidedWithFarWall{false};
+    int numManifolds = world->getDispatcher()->getNumManifolds();
+    btCollisionObject* b = ball->RigidBody();
+    btCollisionObject* w = court->FarWallRigidBody();
+    for (int i=0;i<numManifolds;i++){
+      btPersistentManifold* contactManifold =  world->getDispatcher()->getManifoldByIndexInternal(i);
+      if(contactManifold->getNumContacts()>0){
+      btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
+      btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
+      if(obA==b||obB==b){
+        ballCollided=true;
+        if(obA==w||obB==w){
+          ballCollidedWithFarWall=true;
+          break;
+        }
+      }
+      }
+    }
+    if(ballCollidedWithFarWall){
+      hitStreak=missStreak?1:hitStreak+1;
+      _score+=3+hitStreak;
+      soundMgr->playSoundEffect(SCORE);
+    }else if(ballCollided){
+      soundMgr->playSoundEffect(HIT);
+    }
   }
+  lastPosition = position;
 }
 
 //-------------------------------------------------------------------------------------
@@ -223,6 +274,11 @@ bool TutorialApplication::mouseMoved(const OIS::MouseEvent &arg)
     float xPercent = 1.0f-((float)(arg.state.width-arg.state.X.abs))/((float)arg.state.width);
     float yPercent = ((float)(arg.state.height-arg.state.Y.abs))/((float)arg.state.height);
     paddleController->PositionPaddle(xPercent,yPercent,0.05f);
+    static btScalar rho = (court->Width()/2*tan(3*M_PI/8)+court->Depth()/2)-_launchOrigin.z();
+    btScalar theta=M_PI/2-atan((xPercent-0.5f)*court->Width()/3/(court->Depth()/2-_launchOrigin.z()));
+    btScalar phi=M_PI/2-atan((yPercent-0.5f)*court->Height()/3/(court->Depth()/2-_launchOrigin.z()));
+    mCamera->setPosition(Ogre::Vector3(rho*sin(phi)*cos(theta),rho*cos(phi),rho*sin(phi)*sin(theta)+_launchOrigin.z()));
+    mCamera->lookAt(Ogre::Vector3(0,0,_launchOrigin.z()));
   }
 
     return true;
@@ -300,10 +356,12 @@ bool TutorialApplication::startGame(const CEGUI::EventArgs &e)
     scoreCreated = false;
     wmgr.destroyAllWindows();
 
-    static bool first = true;
-    if (!first){
+    //static bool first = true;
+    //if (!first){
       _score=0;
-    }
+    //}
+    soundMgr->playSoundEffect(FIRE);
+    launcher->Launch(ball,_launchOrigin);
     
     CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "Project2-GUI/FreePlay/Sheet");
     

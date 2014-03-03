@@ -22,6 +22,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
   _leftWallShape = unique_ptr<btCollisionShape>(new btStaticPlaneShape(btVector3(1,0,0),-_width/2));
   _leftWallMotionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
   btRigidBody::btRigidBodyConstructionInfo rigidBodyInfo(0,_leftWallMotionState.get(),_leftWallShape.get());
+  rigidBodyInfo.m_friction = _friction;
   _leftWallRigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
   _leftWallRigidBody->setRestitution(_coefficientOfRestitution);
 
@@ -35,6 +36,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
   _rightWallShape = unique_ptr<btCollisionShape>(new btStaticPlaneShape(btVector3(-1,0,0),-_width/2));
   _rightWallMotionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
   rigidBodyInfo=btRigidBody::btRigidBodyConstructionInfo(0,_rightWallMotionState.get(),_rightWallShape.get());
+  rigidBodyInfo.m_friction = _friction;
   _rightWallRigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
   _rightWallRigidBody->setRestitution(_coefficientOfRestitution);
 
@@ -48,6 +50,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
   _ceilingShape = unique_ptr<btCollisionShape>(new btStaticPlaneShape(btVector3(0,-1,0),-_height/2));
   _ceilingMotionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
   rigidBodyInfo=btRigidBody::btRigidBodyConstructionInfo(0,_ceilingMotionState.get(),_ceilingShape.get());
+  rigidBodyInfo.m_friction = _friction;
   _ceilingRigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
   _ceilingRigidBody->setRestitution(_coefficientOfRestitution);
 
@@ -61,6 +64,7 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
   _floorShape = unique_ptr<btCollisionShape>(new btStaticPlaneShape(btVector3(0,1,0),-_height/2));
   _floorMotionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
   rigidBodyInfo=btRigidBody::btRigidBodyConstructionInfo(0,_floorMotionState.get(),_floorShape.get());
+  rigidBodyInfo.m_friction = _friction;
   _floorRigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
   _floorRigidBody->setRestitution(_coefficientOfRestitution);
 
@@ -74,8 +78,10 @@ Court::Court(Ogre::SceneNode* node):_node{node}{
   _farWallShape = unique_ptr<btCollisionShape>(new btStaticPlaneShape(btVector3(0,0,1),-_depth/2));
   _farWallMotionState = unique_ptr<btDefaultMotionState>(new btDefaultMotionState());
   rigidBodyInfo=btRigidBody::btRigidBodyConstructionInfo(0,_farWallMotionState.get(),_farWallShape.get());
+  rigidBodyInfo.m_friction = _friction;
+  //rigidBodyInfo.m_restitution = 2;
+  rigidBodyInfo.m_restitution = _coefficientOfRestitution;
   _farWallRigidBody = unique_ptr<btRigidBody>{new btRigidBody(rigidBodyInfo)};
-  _farWallRigidBody->setRestitution(_coefficientOfRestitution);
 }
 btRigidBody* Court::LeftWallRigidBody(){
   return _leftWallRigidBody.get();
@@ -104,4 +110,5 @@ btScalar Court::Depth(){
 const btScalar Court::_width{6.096f};
 const btScalar Court::_height{6.096f};
 const btScalar Court::_depth{12.192f};
-const btScalar Court::_coefficientOfRestitution{1.0f};
+const btScalar Court::_coefficientOfRestitution{0.728f};
+const btScalar Court::_friction{0.2f};
